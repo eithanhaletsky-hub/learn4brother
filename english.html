@@ -6,639 +6,754 @@
   <title>אנגלית 🔤</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: 'Segoe UI', Arial, sans-serif;
-      background: #f0fffe;
-      min-height: 100vh;
-      padding: 20px;
-    }
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0fffe; min-height: 100vh; padding: 20px; }
+
     header {
       background: linear-gradient(135deg, #4ECDC4, #0b8c84);
-      color: white;
-      text-align: center;
-      padding: 25px;
-      border-radius: 20px;
-      margin-bottom: 25px;
+      color: white; text-align: center; padding: 25px;
+      border-radius: 20px; margin-bottom: 20px;
     }
     header h1 { font-size: 2.2rem; }
     header p { opacity: 0.9; margin-top: 5px; }
-    .back { display:inline-block; background:white; color:#4ECDC4; border:none; padding:10px 20px; border-radius:50px; font-size:1rem; cursor:pointer; font-weight:bold; text-decoration:none; margin-bottom:15px; }
-    .back:hover { background:#d0f5f3; }
 
-    .tabs {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 25px;
-      justify-content: center;
+    .back {
+      display: inline-block; background: white; color: #4ECDC4;
+      padding: 10px 22px; border-radius: 50px; font-size: 1rem;
+      font-weight: bold; text-decoration: none; margin-bottom: 15px;
     }
+    .back:hover { background: #d0f5f3; }
+
+    /* ── TABS ── */
+    .tabs { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 25px; }
     .tab {
-      background: white;
-      border: 3px solid #4ECDC4;
-      color: #4ECDC4;
-      padding: 10px 20px;
-      border-radius: 50px;
-      cursor: pointer;
-      font-size: 1rem;
-      font-weight: bold;
-      transition: all 0.2s;
+      background: white; border: 3px solid #4ECDC4; color: #4ECDC4;
+      padding: 9px 18px; border-radius: 50px; cursor: pointer;
+      font-size: 0.95rem; font-weight: bold; transition: all 0.2s;
     }
     .tab.active, .tab:hover { background: #4ECDC4; color: white; }
 
-    .section { display: none; }
+    .section { display: none; max-width: 960px; margin: 0 auto; }
     .section.active { display: block; }
 
+    /* ── BOXES ── */
     .explain-box {
-      background: #e0f7fa;
-      border-right: 5px solid #4ECDC4;
-      border-radius: 12px;
-      padding: 20px;
-      margin-bottom: 20px;
-      font-size: 1.05rem;
-      line-height: 1.7;
+      background: #e0f7fa; border-right: 5px solid #4ECDC4;
+      border-radius: 14px; padding: 20px; margin-bottom: 18px;
+      font-size: 1.05rem; line-height: 1.7;
     }
     .explain-box h3 { color: #006064; margin-bottom: 8px; font-size: 1.2rem; }
     .explain-box .example {
-      background: white;
-      border-radius: 8px;
-      padding: 10px 15px;
-      margin-top: 10px;
-      font-size: 1.05rem;
-      direction: ltr;
-      text-align: left;
+      background: white; border-radius: 8px; padding: 10px 15px;
+      margin-top: 10px; font-size: 1.05rem; direction: ltr; text-align: left;
     }
-
-    .word-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-      gap: 12px;
-      margin-bottom: 25px;
-    }
-    .word-card {
-      background: white;
-      border-radius: 15px;
-      padding: 15px;
-      text-align: center;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-      border-top: 4px solid #4ECDC4;
-    }
-    .word-card .eng { font-size: 1.4rem; font-weight: bold; color: #006064; direction: ltr; }
-    .word-card .heb { font-size: 1rem; color: #555; margin-top: 5px; }
-    .word-card .emoji { font-size: 1.8rem; display: block; margin-bottom: 5px; }
-
-    .exercise-card {
-      background: white;
-      border-radius: 15px;
-      padding: 20px;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-      margin-bottom: 15px;
-    }
-    .exercise-card .question {
-      font-size: 1.1rem;
-      margin-bottom: 12px;
-      color: #333;
-      line-height: 1.5;
-    }
-    .exercise-card input[type=text] {
-      padding: 8px 12px;
-      font-size: 1rem;
-      border: 2px solid #ddd;
-      border-radius: 8px;
-      outline: none;
-      direction: ltr;
-      width: 200px;
-    }
-    .exercise-card input:focus { border-color: #4ECDC4; }
-    .check-btn {
-      background: #4ECDC4;
-      color: white;
-      border: none;
-      padding: 8px 18px;
-      border-radius: 20px;
-      cursor: pointer;
-      font-size: 0.95rem;
-      margin-right: 10px;
-    }
-    .check-btn:hover { background: #0b8c84; }
-    .result { margin-top: 8px; font-weight: bold; min-height: 22px; }
-    .correct { color: #28a745; }
-    .wrong { color: #dc3545; }
-
-    .score-bar {
-      background: #b2ebf2;
-      border-radius: 10px;
-      padding: 12px 20px;
-      margin-bottom: 20px;
-      font-weight: bold;
-      color: #006064;
-      text-align: center;
-      font-size: 1.1rem;
-    }
-
     .tip-box {
-      background: #e8f5e9;
-      border-right: 5px solid #4caf50;
-      border-radius: 12px;
-      padding: 15px 20px;
-      margin-bottom: 20px;
-      font-size: 1rem;
-      line-height: 1.6;
+      background: #e8f5e9; border-right: 5px solid #4caf50;
+      border-radius: 14px; padding: 14px 20px; margin-bottom: 18px;
+      font-size: 1rem; line-height: 1.6;
     }
     .tip-box h4 { color: #2e7d32; margin-bottom: 5px; }
-
-    .options { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
-    .opt-btn {
-      background: #e0f7fa;
-      border: 2px solid #4ECDC4;
-      color: #006064;
-      padding: 8px 18px;
-      border-radius: 20px;
-      cursor: pointer;
-      font-size: 1rem;
-      transition: all 0.2s;
-      direction: ltr;
-    }
-    .opt-btn:hover { background: #4ECDC4; color: white; }
-    .opt-btn.correct-opt { background: #28a745; color: white; border-color: #28a745; }
-    .opt-btn.wrong-opt { background: #dc3545; color: white; border-color: #dc3545; }
-
-    .sentence-box {
-      background: white;
-      border-radius: 15px;
-      padding: 20px;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-      margin-bottom: 15px;
-    }
-    .sentence-box .eng-sent {
-      font-size: 1.2rem;
-      font-weight: bold;
-      direction: ltr;
-      text-align: left;
-      color: #006064;
-      margin-bottom: 8px;
-      padding: 10px;
-      background: #f0fffe;
-      border-radius: 8px;
-    }
-    .sentence-box .heb-trans {
-      color: #555;
-      font-size: 0.95rem;
-      margin-bottom: 12px;
-    }
-
     .rule-card {
-      background: white;
-      border-radius: 15px;
-      padding: 20px;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-      margin-bottom: 15px;
+      background: white; border-radius: 14px; padding: 18px 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.09); margin-bottom: 12px;
       border-right: 5px solid #4ECDC4;
     }
-    .rule-card h4 { color: #006064; font-size: 1.1rem; margin-bottom: 8px; }
-    .rule-card .examples { direction: ltr; text-align: left; margin-top: 8px; color: #333; line-height: 1.8; }
+    .rule-card h4 { color: #006064; font-size: 1.05rem; margin-bottom: 7px; }
+    .rule-card .examples { direction: ltr; text-align: left; color: #333; line-height: 1.9; margin-top: 6px; }
+
+    /* ── SCORE BAR ── */
+    .score-bar {
+      background: #b2ebf2; border-radius: 10px; padding: 11px 20px;
+      margin-bottom: 18px; font-weight: bold; color: #006064;
+      text-align: center; font-size: 1.05rem;
+    }
+
+    /* ── LEVEL HEADER ── */
+    .level-header { display: flex; align-items: center; gap: 10px; margin: 22px 0 12px; }
+    .level-badge { padding: 5px 16px; border-radius: 50px; font-weight: bold; font-size: 0.95rem; white-space: nowrap; }
+    .easy-badge  { background: #d4edda; color: #155724; }
+    .med-badge   { background: #fff3cd; color: #856404; }
+    .hard-badge  { background: #f8d7da; color: #721c24; }
+    .level-line  { flex: 1; height: 2px; background: #eee; border-radius: 2px; }
+
+    /* ── EXERCISE CARDS (MC) ── */
+    .ex-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 14px; margin-bottom: 10px;
+    }
+    .exercise-card {
+      background: white; border-radius: 14px; padding: 18px 16px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.09);
+      border-bottom: 3px solid #eee; transition: box-shadow 0.2s;
+    }
+    .exercise-card:hover { box-shadow: 0 4px 14px rgba(0,0,0,0.12); }
+    .exercise-card.done-correct { border-bottom-color: #28a745; }
+    .exercise-card.done-wrong   { border-bottom-color: #dc3545; }
+    .exercise-card .question { font-size: 1rem; color: #333; line-height: 1.5; margin-bottom: 10px; }
+
+    .options { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+    .opt-btn {
+      background: #e0f7fa; border: 2px solid #4ECDC4; color: #006064;
+      padding: 7px 16px; border-radius: 20px; cursor: pointer;
+      font-size: 0.95rem; transition: all 0.2s; direction: ltr;
+    }
+    .opt-btn:hover:not(:disabled) { background: #4ECDC4; color: white; }
+    .opt-btn.correct-opt { background: #28a745 !important; color: white !important; border-color: #28a745 !important; }
+    .opt-btn.wrong-opt   { background: #dc3545 !important; color: white !important; border-color: #dc3545 !important; }
+
+    .result { margin-top: 8px; font-weight: bold; min-height: 20px; font-size: 0.92rem; }
+    .correct { color: #28a745; }
+    .wrong   { color: #dc3545; }
+
+    /* ── SPELLING GRID ── */
+    .spell-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 14px; margin-bottom: 10px;
+    }
+    .spell-card {
+      background: white; border-radius: 14px; padding: 18px 14px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.09); text-align: center;
+      border-bottom: 3px solid #eee;
+    }
+    .spell-card .clue { font-size: 1.05rem; margin-bottom: 10px; font-weight: bold; color: #333; }
+    .spell-card input[type=text] {
+      width: 100%; padding: 7px 10px; font-size: 0.95rem;
+      border: 2px solid #ddd; border-radius: 8px; outline: none; direction: ltr;
+    }
+    .spell-card input:focus { border-color: #4ECDC4; }
+    .check-btn {
+      margin-top: 9px; background: #4ECDC4; color: white;
+      border: none; padding: 7px 18px; border-radius: 20px;
+      cursor: pointer; font-size: 0.9rem; display: block; width: 100%;
+    }
+    .check-btn:hover { background: #0b8c84; }
+    .check-btn:disabled { background: #ccc; cursor: default; }
+
+    /* ── VOCAB CARDS ── */
+    .word-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(145px, 1fr));
+      gap: 10px; margin-bottom: 20px;
+    }
+    .word-card {
+      background: white; border-radius: 13px; padding: 14px 10px;
+      text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      border-top: 4px solid #4ECDC4;
+    }
+    .word-card .emoji { font-size: 1.7rem; display: block; margin-bottom: 5px; }
+    .word-card .eng   { font-size: 1.15rem; font-weight: bold; color: #006064; direction: ltr; }
+    .word-card .heb   { font-size: 0.9rem; color: #555; margin-top: 4px; }
+
+    /* ── SCRAMBLE ── */
+    .scramble-card {
+      background: white; border-radius: 14px; padding: 18px 16px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.09); margin-bottom: 12px;
+    }
+    .scramble-card .question { font-size: 1rem; color: #333; margin-bottom: 10px; }
+    .word-chips { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 12px; }
+    .chip {
+      background: #e0f7fa; border: 2px solid #4ECDC4; color: #006064;
+      padding: 5px 14px; border-radius: 20px; font-size: 0.95rem;
+      font-weight: bold; direction: ltr; cursor: default;
+    }
+    .scramble-card input[type=text] {
+      width: 100%; padding: 8px 12px; font-size: 1rem;
+      border: 2px solid #ddd; border-radius: 8px; outline: none; direction: ltr;
+    }
+    .scramble-card input:focus { border-color: #4ECDC4; }
+    .sc-btn {
+      margin-top: 9px; background: #4ECDC4; color: white;
+      border: none; padding: 8px 22px; border-radius: 20px;
+      cursor: pointer; font-size: 0.9rem;
+    }
+    .sc-btn:hover { background: #0b8c84; }
+
+    /* ── READING ── */
+    .reading-passage {
+      background: white; border-radius: 14px; padding: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.09); margin-bottom: 14px;
+    }
+    .passage-text {
+      font-size: 1rem; line-height: 1.9; direction: ltr; text-align: left;
+      color: #222; padding: 12px; background: #f0fffe; border-radius: 8px;
+      margin-bottom: 14px;
+    }
+    .passage-title { font-size: 1.15rem; font-weight: bold; color: #006064; margin-bottom: 10px; }
   </style>
 </head>
 <body>
-  <a href="index.html" class="back">← חזרה לדף הבית</a>
-  <header>
-    <h1>🔤 אנגלית</h1>
-    <p>כיתות ג'–ה' • לחץ על נושא כדי להתחיל!</p>
-  </header>
+<a href="index.html" class="back">← חזרה לדף הבית</a>
+<header>
+  <h1>🔤 אנגלית</h1>
+  <p>כיתות ג'–ה' • בחר נושא ורמה</p>
+</header>
 
-  <div class="tabs">
-    <button class="tab active" onclick="showSection('vocab')">📝 אוצר מילים</button>
-    <button class="tab" onclick="showSection('grammar')">📏 דקדוק</button>
-    <button class="tab" onclick="showSection('sentences')">💬 משפטים</button>
-    <button class="tab" onclick="showSection('reading')">📖 קריאה</button>
-    <button class="tab" onclick="showSection('spelling')">✏️ כתיב</button>
+<div class="tabs">
+  <button class="tab active" onclick="showSection('vocab')">📝 אוצר מילים</button>
+  <button class="tab" onclick="showSection('grammar')">📏 דקדוק</button>
+  <button class="tab" onclick="showSection('sentences')">💬 משפטים</button>
+  <button class="tab" onclick="showSection('reading')">📖 קריאה</button>
+  <button class="tab" onclick="showSection('spelling')">✏️ כתיב</button>
+</div>
+
+<!-- ══════════ אוצר מילים ══════════ -->
+<div id="vocab" class="section active">
+  <div class="explain-box">
+    <h3>📚 אוצר מילים – Vocabulary</h3>
+    <p>לומדים מילים לפי קטגוריות. קראו כל מילה בקול כמה פעמים!</p>
   </div>
 
-  <!-- ===== אוצר מילים ===== -->
-  <div id="vocab" class="section active">
-    <div class="explain-box">
-      <h3>📚 אוצר מילים – מילים חשובות לדעת</h3>
-      <p>לומדים מילים חדשות בקטגוריות. קראו כל מילה בקול!</p>
-    </div>
+  <h3 style="color:#006064;margin-bottom:10px;">🏠 בית ומשפחה</h3>
+  <div class="word-grid" id="vocab-home"></div>
 
-    <h3 style="color:#006064; margin-bottom:12px;">🏠 בית ומשפחה</h3>
-    <div class="word-grid" id="vocab-home"></div>
+  <h3 style="color:#006064;margin-bottom:10px;">🐾 בעלי חיים</h3>
+  <div class="word-grid" id="vocab-animals"></div>
 
-    <h3 style="color:#006064; margin-bottom:12px;">🐾 בעלי חיים</h3>
-    <div class="word-grid" id="vocab-animals"></div>
+  <h3 style="color:#006064;margin-bottom:10px;">🍎 אוכל ושתייה</h3>
+  <div class="word-grid" id="vocab-food"></div>
 
-    <h3 style="color:#006064; margin-bottom:12px;">🍎 אוכל</h3>
-    <div class="word-grid" id="vocab-food"></div>
+  <h3 style="color:#006064;margin-bottom:10px;">🎨 צבעים</h3>
+  <div class="word-grid" id="vocab-colors"></div>
 
-    <h3 style="color:#006064; margin-bottom:12px; margin-top:10px;">🎨 צבעים ומספרים</h3>
-    <div class="word-grid" id="vocab-colors"></div>
+  <h3 style="color:#006064;margin-bottom:10px;">🏫 בית ספר</h3>
+  <div class="word-grid" id="vocab-school"></div>
 
-    <h3 style="color:#006064; margin-bottom:12px; margin-top:10px;">⏰ זמן ויום</h3>
-    <div class="word-grid" id="vocab-time"></div>
+  <h3 style="color:#006064;margin-bottom:10px;">⏰ זמן</h3>
+  <div class="word-grid" id="vocab-time"></div>
 
-    <div class="score-bar" id="vocab-score">✏️ ענה על שאלות אוצר המילים!</div>
-    <h3 style="color:#006064; margin-bottom:12px;">❓ תרגול – מה הפירוש?</h3>
-    <div id="vocab-quiz"></div>
+  <h3 style="color:#006064;margin-bottom:10px;">🏙️ מקומות ותחבורה</h3>
+  <div class="word-grid" id="vocab-places"></div>
+
+  <div class="score-bar" id="vocab-score">✏️ ענה על שאלות ותרגל!</div>
+  <h3 style="color:#006064;margin-bottom:10px;margin-top:5px;">❓ שאלות אוצר מילים</h3>
+
+  <div class="level-header"><span class="level-badge easy-badge">😊 קל</span><div class="level-line"></div></div>
+  <div class="ex-grid" id="vocab-easy"></div>
+
+  <div class="level-header"><span class="level-badge med-badge">😤 בינוני</span><div class="level-line"></div></div>
+  <div class="ex-grid" id="vocab-med"></div>
+
+  <div class="level-header"><span class="level-badge hard-badge">🔥 קשה</span><div class="level-line"></div></div>
+  <div class="ex-grid" id="vocab-hard"></div>
+</div>
+
+<!-- ══════════ דקדוק ══════════ -->
+<div id="grammar" class="section">
+  <div class="explain-box">
+    <h3>📚 דקדוק – Grammar</h3>
+    <p>הדקדוק הוא חוקי השפה – בלי חוקים אי אפשר לבנות משפטים נכונים!</p>
   </div>
 
-  <!-- ===== דקדוק ===== -->
-  <div id="grammar" class="section">
-    <div class="explain-box">
-      <h3>📚 דקדוק – Grammar</h3>
-      <p>דקדוק זה חוקי השפה – איך בונים משפטים נכונים!</p>
+  <div class="rule-card">
+    <h4>🔵 שמות עצם – Nouns</h4>
+    <div class="examples">
+      dog 🐕 | cat 🐈 | house 🏠 | school 🏫 | book 📚 | child 👦<br>
+      רבים: cat→cats | box→boxes | baby→babies | man→men | child→children
     </div>
-
-    <div class="rule-card">
-      <h4>🔵 שמות עצם – Nouns (שם של דבר/אדם/מקום)</h4>
-      <div class="examples">
-        dog 🐕 | cat 🐈 | house 🏠 | school 🏫 | book 📚
-      </div>
-      <p style="margin-top:8px; color:#555">רבים: מוסיפים <b>s</b> או <b>es</b> בסוף<br>
-      cat → cats | box → boxes | baby → babies</p>
+  </div>
+  <div class="rule-card">
+    <h4>🟢 פעלים – Verbs</h4>
+    <div class="examples">
+      run | eat | sleep | play | read | write | swim | jump | fly | sing<br>
+      הווה he/she/it: run→runs | go→goes | study→studies
     </div>
-
-    <div class="rule-card">
-      <h4>🟢 פעלים – Verbs (מה עושים?)</h4>
-      <div class="examples">
-        run 🏃 | eat 🍽️ | sleep 😴 | play ⚽ | read 📖 | write ✏️
-      </div>
-      <p style="margin-top:8px; color:#555">בהווה עם he/she/it מוסיפים <b>s</b>: I run → He <b>runs</b></p>
+  </div>
+  <div class="rule-card">
+    <h4>🟡 שמות תואר – Adjectives</h4>
+    <div class="examples">
+      big / small | happy / sad | fast / slow | hot / cold | new / old | tall / short<br>
+      a <b>big</b> dog | a <b>happy</b> girl | a <b>cold</b> day
     </div>
-
-    <div class="rule-card">
-      <h4>🟡 שמות תואר – Adjectives (תיאור)</h4>
-      <div class="examples">
-        big 🔴 | small 🔵 | happy 😊 | sad 😢 | fast ⚡ | slow 🐢
-      </div>
-      <p style="margin-top:8px; color:#555">השם תואר בא <b>לפני</b> שם העצם: a <b>big</b> dog | a <b>happy</b> cat</p>
+  </div>
+  <div class="rule-card">
+    <h4>🔴 מילות יחס – Prepositions</h4>
+    <div class="examples">
+      in | on | under | next to | behind | in front of | between | above | below<br>
+      The cat is <b>on</b> the table. | The ball is <b>under</b> the chair.
     </div>
-
-    <div class="rule-card">
-      <h4>🔴 מילות יחס – Prepositions (איפה? מתי?)</h4>
-      <div class="examples">
-        in | on | under | next to | behind | in front of | between
-      </div>
-      <p style="margin-top:8px; color:#555">The cat is <b>on</b> the table. | The ball is <b>under</b> the chair.</p>
+  </div>
+  <div class="rule-card">
+    <h4>🟣 זמנים – Tenses</h4>
+    <div class="examples">
+      עבר (Past):    I <b>played</b> / I <b>went</b> / She <b>ate</b><br>
+      הווה (Present): I <b>play</b> every day / He <b>plays</b> every day<br>
+      עתיד (Future):  I <b>will play</b> / She <b>will go</b> tomorrow
     </div>
-
-    <div class="rule-card">
-      <h4>🟣 זמנים – Tenses</h4>
-      <div class="examples">
-        עבר (Past): I <b>played</b> yesterday.<br>
-        הווה (Present): I <b>play</b> every day.<br>
-        עתיד (Future): I <b>will play</b> tomorrow.
-      </div>
+  </div>
+  <div class="rule-card">
+    <h4>🟤 מילים לא סדירות – Irregular Verbs</h4>
+    <div class="examples">
+      go → went | eat → ate | run → ran | see → saw<br>
+      come → came | take → took | give → gave | have → had
     </div>
-
-    <div class="score-bar" id="grammar-score">✏️ פתור תרגילי דקדוק!</div>
-    <div id="grammar-exercises"></div>
   </div>
 
-  <!-- ===== משפטים ===== -->
-  <div id="sentences" class="section">
-    <div class="explain-box">
-      <h3>📚 בניית משפטים – Building Sentences</h3>
-      <p>משפט בסיסי = <b>נושא + פועל + מושא</b></p>
-      <div class="example">
-        The dog (נושא) eats (פועל) a bone (מושא).<br>
-        She (נושא) reads (פועל) a book (מושא).<br>
-        We (נושא) play (פועל) football (מושא).
-      </div>
+  <div class="score-bar" id="grammar-score">✏️ פתור תרגילי דקדוק!</div>
+
+  <div class="level-header"><span class="level-badge easy-badge">😊 קל</span><div class="level-line"></div></div>
+  <div class="ex-grid" id="grammar-easy"></div>
+
+  <div class="level-header"><span class="level-badge med-badge">😤 בינוני</span><div class="level-line"></div></div>
+  <div class="ex-grid" id="grammar-med"></div>
+
+  <div class="level-header"><span class="level-badge hard-badge">🔥 קשה</span><div class="level-line"></div></div>
+  <div class="ex-grid" id="grammar-hard"></div>
+</div>
+
+<!-- ══════════ משפטים ══════════ -->
+<div id="sentences" class="section">
+  <div class="explain-box">
+    <h3>📚 בניית משפטים – Building Sentences</h3>
+    <p>משפט בסיסי = <b>נושא (Subject) + פועל (Verb) + מושא (Object)</b></p>
+    <div class="example">
+The dog eats a bone. | She reads a book. | We play football.
     </div>
-
-    <h3 style="color:#006064; margin-bottom:12px;">📖 משפטים שכדאי לדעת</h3>
-    <div id="sentences-list"></div>
-
-    <div class="tip-box">
-      <h4>💡 סוגי משפטים</h4>
-      <p>⬛ משפט רגיל: The cat is big.<br>
-      ❓ שאלה: Is the cat big?<br>
-      ❗ קריאה: What a big cat!</p>
-    </div>
-
-    <div class="score-bar" id="sent-score">✏️ תרגל סידור משפטים!</div>
-    <div id="sentence-exercises"></div>
   </div>
 
-  <!-- ===== קריאה ===== -->
-  <div id="reading" class="section">
-    <div class="explain-box">
-      <h3>📚 קריאה – Reading</h3>
-      <p>קראו את הטקסטים ואחר כך ענו על השאלות!</p>
-    </div>
-    <div id="reading-texts"></div>
+  <h3 style="color:#006064;margin-bottom:10px;">📖 משפטים שימושיים + תרגום</h3>
+  <div id="sentences-list"></div>
+
+  <div class="tip-box">
+    <h4>💡 סוגי משפטים</h4>
+    <p>⬛ רגיל: The cat is big.<br>
+    ❓ שאלה: Is the cat big? / Where is the cat?<br>
+    ❗ קריאה: What a big cat! / How beautiful!</p>
   </div>
 
-  <!-- ===== כתיב ===== -->
-  <div id="spelling" class="section">
-    <div class="explain-box">
-      <h3>📚 כתיב – Spelling</h3>
-      <p>תרגול כתיב – תשמעו (בלב) את המילה ותכתבו אותה נכון!</p>
-    </div>
-    <div class="tip-box">
-      <h4>💡 כללי כתיב חשובים</h4>
-      <p>• i before e except after c: believe, receive<br>
-      • Silent e: cake, like, home, time<br>
-      • Double letters: happy, little, better, running</p>
-    </div>
-    <div class="score-bar" id="spell-score">✏️ כתוב את המילה הנכונה!</div>
-    <div id="spelling-exercises"></div>
+  <div class="score-bar" id="sent-score">✏️ סדר את המשפטים!</div>
+
+  <div class="level-header"><span class="level-badge easy-badge">😊 קל – סדר מילים</span><div class="level-line"></div></div>
+  <div id="scramble-easy"></div>
+
+  <div class="level-header"><span class="level-badge med-badge">😤 בינוני – השלם מילה</span><div class="level-line"></div></div>
+  <div class="ex-grid" id="fill-med"></div>
+
+  <div class="level-header"><span class="level-badge hard-badge">🔥 קשה – סדר מילים</span><div class="level-line"></div></div>
+  <div id="scramble-hard"></div>
+</div>
+
+<!-- ══════════ קריאה ══════════ -->
+<div id="reading" class="section">
+  <div class="explain-box">
+    <h3>📚 קריאה והבנה – Reading Comprehension</h3>
+    <p>קראו את הטקסט <b>לאט ובקול</b>, ואז ענו על השאלות!</p>
   </div>
+  <div id="reading-container"></div>
+</div>
 
-  <script>
-    function showSection(id) {
-      document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-      document.getElementById(id).classList.add('active');
-      event.target.classList.add('active');
-    }
+<!-- ══════════ כתיב ══════════ -->
+<div id="spelling" class="section">
+  <div class="explain-box">
+    <h3>📚 כתיב – Spelling</h3>
+    <p>ראו את הרמז, חשבו על המילה, וכתבו אותה נכון באנגלית!</p>
+  </div>
+  <div class="tip-box">
+    <h4>💡 כללי כתיב</h4>
+    <p>• i before e except after c: bel<b>ie</b>ve / rec<b>ei</b>ve<br>
+    • Silent e: cak<b>e</b> | lik<b>e</b> | hom<b>e</b><br>
+    • Double letters: happ<b>y</b> | bett<b>er</b> | runn<b>ing</b></p>
+  </div>
+  <div class="score-bar" id="spell-score">✏️ כתוב את המילה הנכונה!</div>
 
-    // ======= VOCAB WORDS =======
-    const vocabHome = [
-      ['🏠','house','בית'], ['👨','father','אבא'], ['👩','mother','אמא'],
-      ['👧','sister','אחות'], ['👦','brother','אח'], ['🛏️','bed','מיטה'],
-      ['🪑','chair','כיסא'], ['🚪','door','דלת'], ['🪟','window','חלון'],
-      ['📺','television','טלוויזיה'],
-    ];
-    const vocabAnimals = [
-      ['🐕','dog','כלב'], ['🐈','cat','חתול'], ['🐦','bird','ציפור'],
-      ['🐟','fish','דג'], ['🐇','rabbit','ארנב'], ['🐘','elephant','פיל'],
-      ['🦁','lion','אריה'], ['🐒','monkey','קוף'], ['🐍','snake','נחש'],
-      ['🦋','butterfly','פרפר'],
-    ];
-    const vocabFood = [
-      ['🍎','apple','תפוח'], ['🍌','banana','בננה'], ['🍕','pizza','פיצה'],
-      ['🍞','bread','לחם'], ['🧀','cheese','גבינה'], ['🥛','milk','חלב'],
-      ['🥚','egg','ביצה'], ['🍰','cake','עוגה'], ['🥗','salad','סלט'],
-      ['🍊','orange','תפוז'],
-    ];
-    const vocabColors = [
-      ['🔴','red','אדום'], ['🔵','blue','כחול'], ['🟢','green','ירוק'],
-      ['🟡','yellow','צהוב'], ['⚫','black','שחור'], ['⚪','white','לבן'],
-      ['🟠','orange','כתום'], ['🟣','purple','סגול'], ['1️⃣','one','אחד'],
-      ['2️⃣','two','שתיים'], ['3️⃣','three','שלוש'], ['4️⃣','four','ארבע'],
-    ];
-    const vocabTime = [
-      ['☀️','morning','בוקר'], ['🌤️','afternoon','צהריים'], ['🌙','night','לילה'],
-      ['📅','today','היום'], ['⬅️','yesterday','אתמול'], ['➡️','tomorrow','מחר'],
-      ['📅','Monday','יום שני'], ['📅','Friday','יום שישי'], ['🗓️','week','שבוע'],
-      ['🗓️','year','שנה'],
-    ];
+  <div class="level-header"><span class="level-badge easy-badge">😊 קל</span><div class="level-line"></div></div>
+  <div class="spell-grid" id="spell-easy"></div>
 
-    function renderVocab(words, containerId) {
-      const c = document.getElementById(containerId);
-      words.forEach(([em, eng, heb]) => {
-        c.innerHTML += `<div class="word-card"><span class="emoji">${em}</span><div class="eng">${eng}</div><div class="heb">${heb}</div></div>`;
-      });
-    }
-    renderVocab(vocabHome, 'vocab-home');
-    renderVocab(vocabAnimals, 'vocab-animals');
-    renderVocab(vocabFood, 'vocab-food');
-    renderVocab(vocabColors, 'vocab-colors');
-    renderVocab(vocabTime, 'vocab-time');
+  <div class="level-header"><span class="level-badge med-badge">😤 בינוני</span><div class="level-line"></div></div>
+  <div class="spell-grid" id="spell-med"></div>
 
-    // ======= VOCAB QUIZ (multiple choice) =======
-    const vocabScores = { vocab: [0,0], grammar: [0,0], sent: [0,0], spell: [0,0] };
-    function updateScore(key) {
-      const [c,t] = vocabScores[key];
-      const el = document.getElementById(key+'-score');
-      if (t===0) { el.textContent='✏️ ענה על השאלות וקבל ניקוד!'; return; }
-      const pct = Math.round(c/t*100);
-      el.textContent = `⭐ ניקוד: ${c}/${t} (${pct}%) ${pct===100?'🏆 מושלם!':pct>=70?'👍 כל הכבוד!':'💪 המשך לנסות!'}`;
-    }
+  <div class="level-header"><span class="level-badge hard-badge">🔥 קשה</span><div class="level-line"></div></div>
+  <div class="spell-grid" id="spell-hard"></div>
+</div>
 
-    const vocabQuestions = [
-      { q:'מה הפירוש של "dog"?', opts:['כלב','חתול','ציפור','דג'], ans:0 },
-      { q:'מה הפירוש של "apple"?', opts:['בננה','תפוח','תפוז','עוגה'], ans:1 },
-      { q:'מה הפירוש של "mother"?', opts:['אחות','אח','אמא','אבא'], ans:2 },
-      { q:'מה הפירוש של "yellow"?', opts:['אדום','כחול','ירוק','צהוב'], ans:3 },
-      { q:'מה הפירוש של "tomorrow"?', opts:['אתמול','היום','מחר','שבוע'], ans:2 },
-      { q:'מה פירוש "bread"?', opts:['גבינה','חלב','לחם','ביצה'], ans:2 },
-      { q:'מה פירוש "morning"?', opts:['לילה','בוקר','צהריים','ערב'], ans:1 },
-      { q:'כיצד אומרים "ארנב" באנגלית?', opts:['snake','rabbit','monkey','bird'], ans:1 },
-    ];
+<script>
+// ── TABS ──
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.target.classList.add('active');
+}
 
-    const vqContainer = document.getElementById('vocab-quiz');
-    vocabQuestions.forEach((q, i) => {
-      const div = document.createElement('div');
-      div.className = 'exercise-card';
-      div.innerHTML = `<div class="question">${i+1}. ${q.q}</div>
-        <div class="options">
-          ${q.opts.map((o,j) => `<button class="opt-btn" onclick="checkMC(this, ${j}, ${q.ans}, 'vocab')">${o}</button>`).join('')}
-        </div>
-        <div class="result" id="vqr${i}"></div>`;
-      vqContainer.appendChild(div);
-    });
+// ── SCORES ──
+const scores = { vocab:[0,0], grammar:[0,0], sent:[0,0], spell:[0,0] };
+function updateScore(key) {
+  const [c,t] = scores[key];
+  const el = document.getElementById(key+'-score');
+  if (!el || t===0) return;
+  const pct = Math.round(c/t*100);
+  el.textContent = `⭐ ניקוד: ${c}/${t} (${pct}%)  ${pct===100?'🏆 מושלם!':pct>=70?'👍 כל הכבוד!':'💪 המשך לנסות!'}`;
+}
 
-    function checkMC(btn, chosen, correct, scoreKey) {
-      const parent = btn.closest('.exercise-card');
-      const btns = parent.querySelectorAll('.opt-btn');
-      btns.forEach(b => b.disabled = true);
-      vocabScores[scoreKey][1]++;
-      if (chosen === correct) {
-        btn.classList.add('correct-opt');
-        vocabScores[scoreKey][0]++;
-        parent.querySelector('.result').textContent = '✅ נכון! כל הכבוד!';
-        parent.querySelector('.result').className = 'result correct';
-      } else {
-        btn.classList.add('wrong-opt');
-        btns[correct].classList.add('correct-opt');
-        parent.querySelector('.result').textContent = '❌ לא נכון.';
-        parent.querySelector('.result').className = 'result wrong';
-      }
-      updateScore(scoreKey);
-    }
+// ── MULTIPLE CHOICE ──
+function makeMC(q, opts, ans, containerId, scoreKey) {
+  const grid = document.getElementById(containerId);
+  const div = document.createElement('div');
+  div.className = 'exercise-card';
+  div.innerHTML = `
+    <div class="question">${q}</div>
+    <div class="options">
+      ${opts.map((o,j)=>`<button class="opt-btn" onclick="checkMC(this,${j},${ans},'${scoreKey}')">${o}</button>`).join('')}
+    </div>
+    <div class="result"></div>`;
+  grid.appendChild(div);
+}
+function checkMC(btn, chosen, correct, key) {
+  const card = btn.closest('.exercise-card');
+  card.querySelectorAll('.opt-btn').forEach(b=>b.disabled=true);
+  scores[key][1]++;
+  if (chosen===correct) {
+    btn.classList.add('correct-opt');
+    scores[key][0]++;
+    card.querySelector('.result').textContent='✅ נכון!';
+    card.querySelector('.result').className='result correct';
+    card.classList.add('done-correct');
+  } else {
+    btn.classList.add('wrong-opt');
+    card.querySelectorAll('.opt-btn')[correct].classList.add('correct-opt');
+    card.querySelector('.result').textContent='❌ לא נכון.';
+    card.querySelector('.result').className='result wrong';
+    card.classList.add('done-wrong');
+  }
+  updateScore(key);
+}
 
-    // ======= GRAMMAR EXERCISES =======
-    const grammarExercises = [
-      { q:'בחר את הפועל הנכון: She ___ to school every day.', opts:['go','goes','going','went'], ans:1 },
-      { q:'מה הרבים של "cat"?', opts:['cats','cates','catss','cat'], ans:0 },
-      { q:'בחר את שם התואר: The ___ dog runs fast.', opts:['run','big','quickly','and'], ans:1 },
-      { q:'השלם: I ___ football yesterday.', opts:['play','plays','played','playing'], ans:2 },
-      { q:'איזו מילה היא שם עצם (Noun)?', opts:['happy','run','table','quickly'], ans:2 },
-      { q:'השלם: The ball is ___ the table.', opts:['on','run','big','and'], ans:0 },
-      { q:'בחר עתיד: Tomorrow I ___ swim.', opts:['swimmed','swam','will swim','swimming'], ans:2 },
-      { q:'מה הרבים של "box"?', opts:['boxs','boxes','box','boxy'], ans:1 },
-    ];
-    const gContainer = document.getElementById('grammar-exercises');
-    grammarExercises.forEach((q, i) => {
-      const div = document.createElement('div');
-      div.className = 'exercise-card';
-      div.innerHTML = `<div class="question">${i+1}. ${q.q}</div>
-        <div class="options">
-          ${q.opts.map((o,j) => `<button class="opt-btn" onclick="checkMC(this,${j},${q.ans},'grammar')">${o}</button>`).join('')}
-        </div>
-        <div class="result"></div>`;
-      gContainer.appendChild(div);
-    });
+// ── SCRAMBLE ──
+function makeScramble(words, correct, containerId, scoreKey) {
+  const c = document.getElementById(containerId);
+  const shuffled = [...words].sort(()=>Math.random()-0.5);
+  const uid = Math.random().toString(36).slice(2);
+  const div = document.createElement('div');
+  div.className = 'scramble-card';
+  div.innerHTML = `
+    <div class="question">סדר את המילים למשפט נכון:</div>
+    <div class="word-chips">${shuffled.map(w=>`<span class="chip">${w}</span>`).join('')}</div>
+    <input type="text" id="sc${uid}" placeholder="כתוב את המשפט כאן...">
+    <button class="sc-btn" onclick="checkScramble('sc${uid}','${correct}',this,'${scoreKey}')">בדוק ✓</button>
+    <div class="result" id="scr${uid}"></div>`;
+  c.appendChild(div);
+}
+function checkScramble(id, correct, btn, key) {
+  const val = document.getElementById(id).value.trim().toLowerCase();
+  const uid = id.replace('sc','');
+  const res = document.getElementById('scr'+uid);
+  scores[key][1]++;
+  btn.disabled=true; document.getElementById(id).disabled=true;
+  if (val===correct.toLowerCase()) {
+    res.textContent='✅ נכון! כל הכבוד!'; res.className='result correct';
+    scores[key][0]++;
+    btn.closest('.scramble-card').style.borderRight='5px solid #28a745';
+  } else {
+    res.textContent=`❌ לא נכון. תשובה: ${correct}`; res.className='result wrong';
+    btn.closest('.scramble-card').style.borderRight='5px solid #dc3545';
+  }
+  updateScore(key);
+}
 
-    // ======= SENTENCES =======
-    const sentences = [
-      ['The sun is shining brightly.', 'השמש זורחת בבהירות.'],
-      ['I like to play with my friends.', 'אני אוהב/ת לשחק עם החברים שלי.'],
-      ['She reads a book every night.', 'היא קוראת ספר כל לילה.'],
-      ['We eat lunch at school.', 'אנחנו אוכלים ארוחת צהריים בבית הספר.'],
-      ['My dog is brown and white.', 'הכלב שלי חום ולבן.'],
-      ['He runs fast in the race.', 'הוא רץ מהר במרוץ.'],
-      ['The flowers are beautiful.', 'הפרחים יפים.'],
-      ['Can you help me, please?', 'האם תוכל לעזור לי, בבקשה?'],
-      ['I love eating apples and oranges.', 'אני אוהב/ת לאכול תפוחים ותפוזים.'],
-      ['There are twenty students in my class.', 'יש עשרים תלמידים בכיתה שלי.'],
-    ];
-    const sl = document.getElementById('sentences-list');
-    sentences.forEach(([eng, heb]) => {
-      sl.innerHTML += `<div class="sentence-box"><div class="eng-sent">${eng}</div><div class="heb-trans">🇮🇱 ${heb}</div></div>`;
-    });
+// ── SPELLING ──
+function makeSpell(clue, word, containerId) {
+  const grid = document.getElementById(containerId);
+  const uid = Math.random().toString(36).slice(2);
+  const card = document.createElement('div');
+  card.className = 'spell-card';
+  card.innerHTML = `
+    <div class="clue">${clue}</div>
+    <input type="text" id="sp${uid}" placeholder="כתוב באנגלית...">
+    <button class="check-btn" onclick="checkSpell('sp${uid}','${word}',this)">בדוק ✓</button>
+    <div class="result" id="spr${uid}"></div>`;
+  grid.appendChild(card);
+}
+function checkSpell(id, correct, btn) {
+  const val = document.getElementById(id).value.trim().toLowerCase();
+  const uid = id.replace('sp','');
+  const res = document.getElementById('spr'+uid);
+  scores['spell'][1]++;
+  btn.disabled=true; document.getElementById(id).disabled=true;
+  if (val===correct) {
+    res.textContent='✅ נכון!'; res.className='result correct';
+    scores['spell'][0]++;
+    btn.closest('.spell-card').style.borderBottom='3px solid #28a745';
+  } else {
+    res.textContent=`❌ כתיב נכון: ${correct}`; res.className='result wrong';
+    btn.closest('.spell-card').style.borderBottom='3px solid #dc3545';
+  }
+  updateScore('spell');
+}
 
-    // Sentence unscramble exercises
-    const scrambleEx = [
-      { words: ['dog','The','big','is'], correct: 'The dog is big' },
-      { words: ['I','apple','an','eat'], correct: 'I eat an apple' },
-      { words: ['plays','She','football'], correct: 'She plays football' },
-      { words: ['runs','fast','He'], correct: 'He runs fast' },
-      { words: ['a','book','reads','She'], correct: 'She reads a book' },
-    ];
-    const seContainer = document.getElementById('sentence-exercises');
-    seContainer.innerHTML = '<h3 style="color:#006064; margin-bottom:12px;">🔀 סדר את המילים למשפט נכון</h3>';
-    scrambleEx.forEach((ex, i) => {
-      const shuffled = [...ex.words].sort(() => Math.random()-0.5);
-      const div = document.createElement('div');
-      div.className = 'exercise-card';
-      div.innerHTML = `
-        <div class="question">${i+1}. סדר את המילים: <b style="direction:ltr;display:inline-block">${shuffled.map(w=>`[${w}]`).join(' ')}</b></div>
-        <input type="text" id="sc${i}" placeholder="כתוב את המשפט..." style="width:100%;max-width:400px;direction:ltr">
-        <button class="check-btn" onclick="checkScramble('sc${i}','${ex.correct}',this)" style="margin-top:8px">בדוק ✓</button>
-        <div class="result" id="scr${i}"></div>`;
-      seContainer.appendChild(div);
-    });
+// ══════════════════════════════
+// DATA
+// ══════════════════════════════
 
-    function checkScramble(id, correct, btn) {
-      const val = document.getElementById(id).value.trim().toLowerCase();
-      const res = document.getElementById('r'+id) || document.getElementById('scr'+id.replace('sc',''));
-      const resEl = btn.nextElementSibling.nextElementSibling;
-      vocabScores['sent'][1]++;
-      btn.disabled = true;
-      document.getElementById(id).disabled = true;
-      if (val === correct.toLowerCase()) {
-        resEl.textContent = '✅ נכון! כל הכבוד!';
-        resEl.className = 'result correct';
-        vocabScores['sent'][0]++;
-      } else {
-        resEl.textContent = `❌ לא נכון. התשובה: ${correct}`;
-        resEl.className = 'result wrong';
-      }
-      updateScore('sent');
-    }
+// ── VOCAB CARDS ──
+function renderVocab(list, id) {
+  const c = document.getElementById(id);
+  list.forEach(([em,eng,heb]) => {
+    c.innerHTML += `<div class="word-card"><span class="emoji">${em}</span><div class="eng">${eng}</div><div class="heb">${heb}</div></div>`;
+  });
+}
 
-    // ======= READING =======
-    const readings = [
-      {
-        title: 'My Family 👨‍👩‍👧‍👦',
-        text: `My name is Tom. I am 9 years old. I have a big family. My mother is a teacher. My father is a doctor. I have one sister. Her name is Lisa. She is 7 years old. We have a dog. His name is Max. Max is brown and white. We love our family very much.`,
-        questions: [
-          { q:'How old is Tom?', opts:['7','8','9','10'], ans:2 },
-          { q:'What does his mother do?', opts:['doctor','teacher','cook','driver'], ans:1 },
-          { q:"What is the dog's name?", opts:['Tom','Lisa','Max','Bob'], ans:2 },
-          { q:'What color is Max?', opts:['black','white','brown and white','red'], ans:3 },
-        ]
-      },
-      {
-        title: 'My School Day 🏫',
-        text: `Every morning I wake up at seven o'clock. I eat breakfast with my family. Then I go to school by bus. At school, I study math, English, and science. My favorite subject is art. After school, I play football with my friends. In the evening, I do my homework and read a book. I go to bed at nine o'clock.`,
-        questions: [
-          { q:'What time does the child wake up?', opts:['6:00','7:00','8:00','9:00'], ans:1 },
-          { q:'How does the child go to school?', opts:['by car','by bike','by bus','on foot'], ans:2 },
-          { q:"What is the child's favorite subject?", opts:['math','English','science','art'], ans:3 },
-          { q:'What does the child do in the evening?', opts:['plays football','watches TV','does homework','goes swimming'], ans:2 },
-        ]
-      },
-    ];
+renderVocab([
+  ['🏠','house','בית'],['👨','father','אבא'],['👩','mother','אמא'],
+  ['👧','sister','אחות'],['👦','brother','אח'],['👴','grandfather','סבא'],
+  ['👵','grandmother','סבתא'],['🛏️','bed','מיטה'],['🪑','chair','כיסא'],
+  ['🚪','door','דלת'],['🪟','window','חלון'],['🛁','bathroom','אמבטיה'],
+], 'vocab-home');
 
-    const rtContainer = document.getElementById('reading-texts');
-    readings.forEach((r, ri) => {
-      const div = document.createElement('div');
-      div.style.marginBottom = '30px';
-      div.innerHTML = `
-        <h3 style="color:#006064; margin-bottom:10px;">${r.title}</h3>
-        <div class="sentence-box" style="margin-bottom:15px;">
-          <div class="eng-sent" style="font-size:1rem; font-weight:normal; line-height:1.8;">${r.text}</div>
-        </div>
-        <h4 style="color:#006064; margin-bottom:10px;">❓ שאלות הבנה:</h4>
-        ${r.questions.map((q,qi) => `
+renderVocab([
+  ['🐕','dog','כלב'],['🐈','cat','חתול'],['🐦','bird','ציפור'],
+  ['🐟','fish','דג'],['🐇','rabbit','ארנב'],['🐘','elephant','פיל'],
+  ['🦁','lion','אריה'],['🐒','monkey','קוף'],['🐍','snake','נחש'],
+  ['🦋','butterfly','פרפר'],['🐄','cow','פרה'],['🐔','chicken','תרנגולת'],
+], 'vocab-animals');
+
+renderVocab([
+  ['🍎','apple','תפוח'],['🍌','banana','בננה'],['🍕','pizza','פיצה'],
+  ['🍞','bread','לחם'],['🧀','cheese','גבינה'],['🥛','milk','חלב'],
+  ['🥚','egg','ביצה'],['🍰','cake','עוגה'],['🥗','salad','סלט'],
+  ['🍊','orange','תפוז'],['🍇','grapes','ענבים'],['🥤','juice','מיץ'],
+], 'vocab-food');
+
+renderVocab([
+  ['🔴','red','אדום'],['🔵','blue','כחול'],['🟢','green','ירוק'],
+  ['🟡','yellow','צהוב'],['⚫','black','שחור'],['⚪','white','לבן'],
+  ['🟠','orange','כתום'],['🟣','purple','סגול'],['🟤','brown','חום'],
+  ['🩷','pink','ורוד'],
+], 'vocab-colors');
+
+renderVocab([
+  ['✏️','pencil','עיפרון'],['📚','book','ספר'],['🎒','bag','תיק'],
+  ['📏','ruler','סרגל'],['🖊️','pen','עט'],['🖥️','computer','מחשב'],
+  ['🏫','school','בית ספר'],['👩‍🏫','teacher','מורה'],['📓','notebook','מחברת'],
+  ['📐','triangle','משולש'],
+], 'vocab-school');
+
+renderVocab([
+  ['☀️','morning','בוקר'],['🌤️','afternoon','צהריים'],['🌙','night','לילה'],
+  ['📅','today','היום'],['⬅️','yesterday','אתמול'],['➡️','tomorrow','מחר'],
+  ['🗓️','week','שבוע'],['🗓️','month','חודש'],['🗓️','year','שנה'],
+  ['⏰','hour','שעה'],['⏱️','minute','דקה'],['🕐','clock','שעון'],
+], 'vocab-time');
+
+renderVocab([
+  ['🏪','store','חנות'],['🏥','hospital','בית חולים'],['🌳','park','פארק'],
+  ['🚗','car','מכונית'],['🚌','bus','אוטובוס'],['🚂','train','רכבת'],
+  ['✈️','airplane','מטוס'],['🚶','street','רחוב'],['🏙️','city','עיר'],
+  ['🏘️','village','כפר'],
+], 'vocab-places');
+
+// ── VOCAB QUIZ ──
+[
+  { q:'מה פירוש "dog"?', opts:['חתול','כלב','ציפור','דג'], ans:1 },
+  { q:'מה פירוש "apple"?', opts:['תפוז','בננה','תפוח','ענבים'], ans:2 },
+  { q:'מה פירוש "big"?', opts:['קטן','יפה','גדול','מהיר'], ans:2 },
+  { q:'מה פירוש "happy"?', opts:['עצוב','כועס','עייף','שמח'], ans:3 },
+  { q:'כיצד אומרים "בית" באנגלית?', opts:['school','car','house','tree'], ans:2 },
+  { q:'מה פירוש "mother"?', opts:['אחות','אח','אמא','אבא'], ans:2 },
+].forEach(({q,opts,ans}) => makeMC(q, opts, ans, 'vocab-easy', 'vocab'));
+
+[
+  { q:'מה פירוש "beautiful"?', opts:['מגעיל','גדול','יפה','מהיר'], ans:2 },
+  { q:'מה פירוש "yesterday"?', opts:['מחר','היום','אתמול','עכשיו'], ans:2 },
+  { q:'כיצד אומרים "ארנב" באנגלית?', opts:['snake','rabbit','monkey','bird'], ans:1 },
+  { q:'מה פירוש "teacher"?', opts:['תלמיד','ספר','מורה','כיתה'], ans:2 },
+  { q:'מה פירוש "between"?', opts:['מעל','מתחת','ליד','בין'], ans:3 },
+  { q:'מה פירוש "hospital"?', opts:['בית ספר','בית חולים','חנות','פארק'], ans:1 },
+].forEach(({q,opts,ans}) => makeMC(q, opts, ans, 'vocab-med', 'vocab'));
+
+[
+  { q:'מה פירוש "unfortunately"?', opts:['למרבה המזל','בדרך כלל','למרבה הצער','כמובן'], ans:2 },
+  { q:'מה פירוש "neighbor"?', opts:['אויב','שכן','אורח','זר'], ans:1 },
+  { q:'מה פירוש "necessary"?', opts:['מיותר','קשה','נחוץ','אפשרי'], ans:2 },
+  { q:'מה פירוש "environment"?', opts:['ממשלה','סביבה','תחבורה','חינוך'], ans:1 },
+  { q:'מה פירוש "communicate"?', opts:['להתנגד','לתקשר','לברוח','לחפש'], ans:1 },
+  { q:'מה פירוש "although"?', opts:['כי','אם','למרות ש','כאשר'], ans:2 },
+].forEach(({q,opts,ans}) => makeMC(q, opts, ans, 'vocab-hard', 'vocab'));
+
+// ── GRAMMAR ──
+[
+  { q:'מה הרבים של "cat"?', opts:['cat','cates','cats','catss'], ans:2 },
+  { q:'She ___ to school every day.', opts:['go','going','goes','went'], ans:2 },
+  { q:'איזו מילה היא Noun (שם עצם)?', opts:['happy','run','table','quickly'], ans:2 },
+  { q:'מה פירוש "on" במשפט "the book is on the table"?', opts:['מתחת','על','ליד','בין'], ans:1 },
+  { q:'I ___ a student.', opts:['is','are','am','be'], ans:2 },
+  { q:'מה הרבים של "box"?', opts:['boxs','box','boxy','boxes'], ans:3 },
+].forEach(({q,opts,ans}) => makeMC(q, opts, ans, 'grammar-easy', 'grammar'));
+
+[
+  { q:'I ___ football yesterday.', opts:['play','plays','playing','played'], ans:3 },
+  { q:'Tomorrow we ___ go to the beach.', opts:['go','went','will go','going'], ans:2 },
+  { q:'The students ___ studying now.', opts:['is','am','are','be'], ans:2 },
+  { q:'מה ה-past של "eat"?', opts:['eated','eating','eats','ate'], ans:3 },
+  { q:'בחר שם תואר: The ___ dog runs fast.', opts:['run','big','quickly','and'], ans:1 },
+  { q:'מה הרבים של "baby"?', opts:['babys','babies','babyes','babyies'], ans:1 },
+  { q:'The ball is ___ the chair. (מתחת)', opts:['on','in','under','between'], ans:2 },
+  { q:'She has ___ books. (הרבה)', opts:['much','a little','many','less'], ans:2 },
+].forEach(({q,opts,ans}) => makeMC(q, opts, ans, 'grammar-med', 'grammar'));
+
+[
+  { q:'Choose the correct sentence:', opts:['She go home.','She goes home.','She going home.','She goed home.'], ans:1 },
+  { q:'מה ה-plural של "child"?', opts:['childs','childen','children','childre'], ans:2 },
+  { q:'מה ה-comparative של "good"?', opts:['gooder','more good','better','best'], ans:2 },
+  { q:'She ___ living here for 5 years.', opts:['is','has been','was','were'], ans:1 },
+  { q:'מה ה-past של "go"?', opts:['goed','goes','gone','went'], ans:3 },
+  { q:'Which is correct?', opts:['I have saw him.','I have seen him.','I saw have him.','I did seen him.'], ans:1 },
+  { q:'מה ה-superlative של "bad"?', opts:['badder','more bad','worse','worst'], ans:3 },
+  { q:'מה סוג המילה "quickly"?', opts:['noun','verb','adjective','adverb'], ans:3 },
+].forEach(({q,opts,ans}) => makeMC(q, opts, ans, 'grammar-hard', 'grammar'));
+
+// ── SENTENCES LIST ──
+const sentencesList = [
+  ['The sun is shining brightly today.', 'השמש זורחת בבהירות היום.'],
+  ['I like to play with my friends after school.', 'אני אוהב לשחק עם החברים שלי אחרי בית הספר.'],
+  ['She reads a book every night before sleeping.', 'היא קוראת ספר כל לילה לפני השינה.'],
+  ['We eat lunch together at the school cafeteria.', 'אנחנו אוכלים ארוחת צהריים ביחד בקפיטריה.'],
+  ['My dog is brown and white and very friendly.', 'הכלב שלי חום ולבן ומאוד ידידותי.'],
+  ['Can you help me with my homework, please?', 'האם תוכל לעזור לי עם שיעורי הבית, בבקשה?'],
+  ['There are twenty-five students in my class.', 'יש עשרים וחמישה תלמידים בכיתה שלי.'],
+  ['I will visit my grandparents next weekend.', 'אני אבקר את סבי וסבתי בסוף השבוע הבא.'],
+  ['The weather is cold and windy outside.', 'מזג האוויר קר וסוער בחוץ.'],
+  ['She speaks English and Hebrew very well.', 'היא מדברת אנגלית ועברית מאוד טוב.'],
+  ['We went to the park and played football.', 'הלכנו לפארק ושיחקנו כדורגל.'],
+  ['My favorite subject at school is art.', 'המקצוע האהוב עלי בבית הספר הוא אמנות.'],
+];
+const sl = document.getElementById('sentences-list');
+sentencesList.forEach(([eng,heb]) => {
+  sl.innerHTML += `
+    <div style="background:white;border-radius:13px;padding:16px;box-shadow:0 2px 8px rgba(0,0,0,0.08);margin-bottom:10px;">
+      <div style="direction:ltr;text-align:left;font-size:1.05rem;font-weight:bold;color:#006064;background:#f0fffe;padding:9px 12px;border-radius:8px;margin-bottom:7px;">${eng}</div>
+      <div style="color:#555;font-size:0.95rem;">🇮🇱 ${heb}</div>
+    </div>`;
+});
+
+// ── SCRAMBLE ──
+[
+  { words:['is','The','dog','big'], correct:'The dog is big' },
+  { words:['I','apple','an','eat'], correct:'I eat an apple' },
+  { words:['plays','She','football'], correct:'She plays football' },
+  { words:['fast','He','runs'], correct:'He runs fast' },
+  { words:['a','book','reads','She'], correct:'She reads a book' },
+  { words:['school','go','I','to'], correct:'I go to school' },
+].forEach(({words,correct}) => makeScramble(words, correct, 'scramble-easy', 'sent'));
+
+// Fill-in-the-blank (medium) – using MC
+[
+  { q:'I ___ my homework every evening.', opts:['do','does','did','doing'], ans:0 },
+  { q:'The cat is ___ the table.', opts:['on','run','big','very'], ans:0 },
+  { q:'She ___ a letter yesterday.', opts:['write','writes','wrote','writing'], ans:2 },
+  { q:'There ___ five books on the shelf.', opts:['is','am','are','be'], ans:2 },
+  { q:'We will ___ to the park tomorrow.', opts:['go','goes','went','going'], ans:0 },
+  { q:'He ___ TV every night.', opts:['watch','watches','watched','watching'], ans:1 },
+].forEach(({q,opts,ans}) => makeMC(q, opts, ans, 'fill-med', 'sent'));
+
+[
+  { words:['beautiful','are','The','flowers'], correct:'The flowers are beautiful' },
+  { words:['is','shining','The','sun','brightly'], correct:'The sun is shining brightly' },
+  { words:['my','I','friends','with','play'], correct:'I play with my friends' },
+  { words:['to','She','school','goes','every','day'], correct:'She goes to school every day' },
+  { words:['homework','after','do','I','school','my'], correct:'I do my homework after school' },
+].forEach(({words,correct}) => makeScramble(words, correct, 'scramble-hard', 'sent'));
+
+// ── READING ──
+const readings = [
+  {
+    title: 'My Family 👨‍👩‍👧‍👦',
+    text: `My name is Tom. I am 9 years old. I have a big family. My mother is a teacher and my father is a doctor. I have one sister. Her name is Lisa. She is 7 years old. We also have a dog named Max. Max is brown and white and very friendly. We all love each other very much.`,
+    qs: [
+      { q:'How old is Tom?', opts:['7','8','9','10'], ans:2 },
+      { q:"What does Tom's mother do?", opts:['doctor','teacher','cook','driver'], ans:1 },
+      { q:"What is the dog's name?", opts:['Tom','Lisa','Max','Bob'], ans:2 },
+      { q:'What color is Max?', opts:['black','brown and white','white','red'], ans:1 },
+    ]
+  },
+  {
+    title: 'My School Day 🏫',
+    text: `Every morning I wake up at seven o'clock. I eat breakfast with my family, then I go to school by bus. At school I study math, English, and science. My favorite subject is art because I love drawing and painting. After school I play football with my friends for one hour. In the evening I do my homework and read a book before bed.`,
+    qs: [
+      { q:'What time does the child wake up?', opts:['6:00','7:00','8:00','9:00'], ans:1 },
+      { q:'How does the child go to school?', opts:['by car','by bike','by bus','on foot'], ans:2 },
+      { q:"What is the child's favorite subject?", opts:['math','English','science','art'], ans:3 },
+      { q:'What does the child do after school?', opts:['homework','reads a book','plays football','sleeps'], ans:2 },
+    ]
+  },
+  {
+    title: 'The Seasons 🌸☀️🍂❄️',
+    text: `There are four seasons in a year: spring, summer, autumn, and winter. In spring the flowers bloom and the weather becomes warm. In summer it is very hot and children have a long vacation. In autumn the leaves fall from the trees and the weather gets cooler. In winter it is cold and sometimes it rains or snows. Every season is special and beautiful in its own way.`,
+    qs: [
+      { q:'How many seasons are there in a year?', opts:['2','3','4','5'], ans:2 },
+      { q:'When do flowers bloom?', opts:['summer','spring','autumn','winter'], ans:1 },
+      { q:'When do leaves fall from trees?', opts:['spring','summer','autumn','winter'], ans:2 },
+      { q:'What sometimes happens in winter?', opts:['flowers bloom','children vacation','it rains or snows','leaves fall'], ans:2 },
+    ]
+  },
+  {
+    title: 'My Best Friend 👫',
+    text: `My best friend's name is Sara. She is ten years old and we are in the same class at school. Sara has long brown hair and green eyes. She is very smart, funny, and kind. We both love reading books and playing games on the computer. Every Friday we meet at the park and play together for hours. I am very happy to have Sara as my best friend.`,
+    qs: [
+      { q:'How old is Sara?', opts:['8','9','10','11'], ans:2 },
+      { q:'What color are Sara\'s eyes?', opts:['blue','brown','green','black'], ans:2 },
+      { q:'When do they meet at the park?', opts:['Monday','Wednesday','Thursday','Friday'], ans:3 },
+      { q:'What do they both love?', opts:['swimming','reading and games','cooking','singing'], ans:1 },
+    ]
+  },
+];
+
+const rc = document.getElementById('reading-container');
+readings.forEach((r, ri) => {
+  const div = document.createElement('div');
+  div.innerHTML = `
+    <div class="reading-passage">
+      <div class="passage-title">${r.title}</div>
+      <div class="passage-text">${r.text}</div>
+      <h4 style="color:#006064;margin-bottom:10px;">❓ שאלות הבנה:</h4>
+      <div class="ex-grid">
+        ${r.qs.map((q,qi) => `
           <div class="exercise-card">
             <div class="question">${qi+1}. ${q.q}</div>
             <div class="options">
-              ${q.opts.map((o,j) => `<button class="opt-btn" onclick="checkMCRead(this,${j},${q.ans})">${o}</button>`).join('')}
+              ${q.opts.map((o,j)=>`<button class="opt-btn" onclick="checkRead(this,${j},${q.ans})">${o}</button>`).join('')}
             </div>
             <div class="result"></div>
-          </div>
-        `).join('')}
-      `;
-      rtContainer.appendChild(div);
-    });
+          </div>`).join('')}
+      </div>
+    </div>`;
+  rc.appendChild(div);
+});
 
-    function checkMCRead(btn, chosen, correct) {
-      const parent = btn.closest('.exercise-card');
-      const btns = parent.querySelectorAll('.opt-btn');
-      btns.forEach(b => b.disabled = true);
-      if (chosen === correct) {
-        btn.classList.add('correct-opt');
-        parent.querySelector('.result').textContent = '✅ נכון!';
-        parent.querySelector('.result').className = 'result correct';
-      } else {
-        btn.classList.add('wrong-opt');
-        btns[correct].classList.add('correct-opt');
-        parent.querySelector('.result').textContent = '❌ לא נכון.';
-        parent.querySelector('.result').className = 'result wrong';
-      }
-    }
+function checkRead(btn, chosen, correct) {
+  const card = btn.closest('.exercise-card');
+  card.querySelectorAll('.opt-btn').forEach(b=>b.disabled=true);
+  if (chosen===correct) {
+    btn.classList.add('correct-opt');
+    card.querySelector('.result').textContent='✅ נכון!';
+    card.querySelector('.result').className='result correct';
+  } else {
+    btn.classList.add('wrong-opt');
+    card.querySelectorAll('.opt-btn')[correct].classList.add('correct-opt');
+    card.querySelector('.result').textContent='❌ לא נכון.';
+    card.querySelector('.result').className='result wrong';
+  }
+}
 
-    // ======= SPELLING =======
-    const spellingWords = [
-      { clue:'בית 🏠', word:'house' },
-      { clue:'חתול 🐈', word:'cat' },
-      { clue:'ספר 📚', word:'book' },
-      { clue:'תפוח 🍎', word:'apple' },
-      { clue:'בית ספר 🏫', word:'school' },
-      { clue:'ידיד/חבר 👫', word:'friend' },
-      { clue:'שולחן 🪑', word:'table' },
-      { clue:'לשחק ⚽', word:'play' },
-      { clue:'מים 💧', word:'water' },
-      { clue:'לקרוא 📖', word:'read' },
-      { clue:'כלב 🐕', word:'dog' },
-      { clue:'ילד/ה 👦', word:'child' },
-    ];
-    const spContainer = document.getElementById('spelling-exercises');
-    const spGrid = document.createElement('div');
-    spGrid.style.cssText = 'display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:15px;';
-    spellingWords.forEach((sw, i) => {
-      const card = document.createElement('div');
-      card.className = 'exercise-card';
-      card.innerHTML = `
-        <div class="question">${sw.clue}</div>
-        <input type="text" id="sp${i}" placeholder="כתוב באנגלית..." style="width:100%;direction:ltr">
-        <button class="check-btn" onclick="checkSpell('sp${i}','${sw.word}',this)" style="margin-top:8px">בדוק ✓</button>
-        <div class="result" id="spr${i}"></div>
-      `;
-      spGrid.appendChild(card);
-    });
-    spContainer.appendChild(spGrid);
+// ── SPELLING ──
+[
+  ['כלב 🐕', 'dog'], ['חתול 🐈', 'cat'], ['ספר 📚', 'book'],
+  ['תפוח 🍎', 'apple'], ['בית 🏠', 'house'], ['שמש ☀️', 'sun'],
+  ['כדורגל ⚽', 'ball'], ['לאכול 🍽️', 'eat'],
+].forEach(([c,w]) => makeSpell(c, w, 'spell-easy'));
 
-    function checkSpell(id, correct, btn) {
-      const val = document.getElementById(id).value.trim().toLowerCase();
-      const res = document.getElementById('spr' + id.replace('sp',''));
-      vocabScores['spell'][1]++;
-      btn.disabled = true;
-      document.getElementById(id).disabled = true;
-      if (val === correct) {
-        res.textContent = '✅ נכון!';
-        res.className = 'result correct';
-        vocabScores['spell'][0]++;
-      } else {
-        res.textContent = `❌ לא נכון. הכתיב הנכון: ${correct}`;
-        res.className = 'result wrong';
-      }
-      updateScore('spell');
-    }
-  </script>
+[
+  ['בית ספר 🏫', 'school'], ['ידיד/חבר 👫', 'friend'], ['שולחן 🪑', 'table'],
+  ['מים 💧', 'water'], ['לקרוא 📖', 'read'], ['לכתוב ✏️', 'write'],
+  ['ילד 👦', 'child'], ['מורה 👩‍🏫', 'teacher'], ['חלון 🪟', 'window'],
+  ['כיסא 🪑', 'chair'],
+].forEach(([c,w]) => makeSpell(c, w, 'spell-med'));
+
+[
+  ['יפה/נפלא ✨', 'beautiful'], ['אתמול ⬅️', 'yesterday'], ['אוהב/ת 💜', 'love'],
+  ['בין 🔀', 'between'], ['בוקר ☀️', 'morning'], ['סביבה 🌍', 'environment'],
+  ['חופש 🏖️', 'vacation'], ['מחשב 🖥️', 'computer'], ['להאמין 💭', 'believe'],
+  ['לקבל/להשיג 📬', 'receive'],
+].forEach(([c,w]) => makeSpell(c, w, 'spell-hard'));
+</script>
 </body>
 </html>
