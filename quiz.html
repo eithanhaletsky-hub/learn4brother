@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>חידון מעורב 🏆</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: linear-gradient(135deg, #f7971e, #ffd200);
+      min-height: 100vh;
+      padding: 20px;
+    }
+    .back { display:inline-block; background:white; color:#c47c00; border:none; padding:10px 20px; border-radius:50px; font-size:1rem; cursor:pointer; font-weight:bold; text-decoration:none; margin-bottom:15px; }
+    .back:hover { background:#fff3cc; }
+
+    header {
+      background: white;
+      border-radius: 20px;
+      padding: 25px;
+      text-align: center;
+      margin-bottom: 25px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+    }
+    header h1 { font-size: 2.2rem; color: #c47c00; }
+    header p { color: #666; margin-top: 5px; }
+
+    #start-screen {
+      background: white;
+      border-radius: 20px;
+      padding: 40px;
+      text-align: center;
+      max-width: 500px;
+      margin: 0 auto;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+    }
+    #start-screen h2 { font-size: 1.6rem; color: #333; margin-bottom: 15px; }
+    #start-screen p { color: #666; margin-bottom: 25px; font-size: 1.05rem; line-height: 1.6; }
+    .difficulty-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 20px; }
+    .diff-btn {
+      padding: 12px 25px;
+      border: 3px solid;
+      border-radius: 50px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: bold;
+      background: white;
+      transition: all 0.2s;
+    }
+    .diff-btn.easy { border-color: #4CAF50; color: #4CAF50; }
+    .diff-btn.medium { border-color: #FF9800; color: #FF9800; }
+    .diff-btn.hard { border-color: #f44336; color: #f44336; }
+    .diff-btn.active.easy { background: #4CAF50; color: white; }
+    .diff-btn.active.medium { background: #FF9800; color: white; }
+    .diff-btn.active.hard { background: #f44336; color: white; }
+    .start-btn {
+      background: linear-gradient(135deg, #f7971e, #ffd200);
+      color: white;
+      border: none;
+      padding: 15px 40px;
+      border-radius: 50px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      transition: transform 0.2s;
+    }
+    .start-btn:hover { transform: scale(1.05); }
+
+    #quiz-screen { display: none; }
+    .progress-bar-wrap {
+      background: rgba(255,255,255,0.5);
+      border-radius: 10px;
+      height: 12px;
+      margin-bottom: 15px;
+      overflow: hidden;
+    }
+    .progress-bar {
+      height: 100%;
+      background: white;
+      border-radius: 10px;
+      transition: width 0.4s;
+    }
+    .quiz-meta {
+      display: flex;
+      justify-content: space-between;
+      color: white;
+      font-weight: bold;
+      font-size: 1.05rem;
+      margin-bottom: 20px;
+    }
+
+    .question-card {
+      background: white;
+      border-radius: 20px;
+      padding: 30px;
+      max-width: 600px;
+      margin: 0 auto;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+    }
+    .subject-tag {
+      display: inline-block;
+      padding: 4px 14px;
+      border-radius: 50px;
+      font-size: 0.85rem;
+      font-weight: bold;
+      margin-bottom: 12px;
+    }
+    .tag-math { background: #ffe0e0; color: #cc0000; }
+    .tag-english { background: #e0f7fa; color: #006064; }
+
+    .question-text {
+      font-size: 1.3rem;
+      color: #333;
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .option-btn {
+      background: #f8f9fa;
+      border: 2px solid #ddd;
+      border-radius: 12px;
+      padding: 14px 20px;
+      font-size: 1.05rem;
+      cursor: pointer;
+      text-align: right;
+      transition: all 0.2s;
+      direction: rtl;
+    }
+    .option-btn:hover:not(:disabled) { background: #fff3cc; border-color: #ffd200; }
+    .option-btn.correct { background: #d4edda; border-color: #28a745; color: #155724; }
+    .option-btn.wrong { background: #f8d7da; border-color: #dc3545; color: #721c24; }
+    .option-btn.reveal { background: #d4edda; border-color: #28a745; color: #155724; }
+
+    .feedback {
+      margin-top: 15px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      text-align: center;
+      min-height: 28px;
+    }
+    .next-btn {
+      display: none;
+      margin: 20px auto 0;
+      background: #f7971e;
+      color: white;
+      border: none;
+      padding: 12px 35px;
+      border-radius: 50px;
+      font-size: 1.05rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .next-btn:hover { background: #e07000; }
+
+    #result-screen {
+      display: none;
+      background: white;
+      border-radius: 20px;
+      padding: 40px;
+      max-width: 500px;
+      margin: 0 auto;
+      text-align: center;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+    }
+    #result-screen .trophy { font-size: 5rem; margin-bottom: 15px; }
+    #result-screen h2 { font-size: 1.8rem; color: #333; margin-bottom: 10px; }
+    #result-screen .score-big { font-size: 3rem; font-weight: bold; color: #f7971e; margin: 15px 0; }
+    #result-screen .stars-display { font-size: 2.5rem; margin: 10px 0; }
+    #result-screen p { color: #666; font-size: 1.05rem; margin-bottom: 20px; }
+    .replay-btn {
+      background: linear-gradient(135deg, #f7971e, #ffd200);
+      color: white;
+      border: none;
+      padding: 12px 30px;
+      border-radius: 50px;
+      font-size: 1.05rem;
+      font-weight: bold;
+      cursor: pointer;
+      margin: 5px;
+    }
+    .replay-btn:hover { opacity: 0.9; }
+    .home-btn {
+      background: white;
+      color: #f7971e;
+      border: 3px solid #f7971e;
+      padding: 12px 30px;
+      border-radius: 50px;
+      font-size: 1.05rem;
+      font-weight: bold;
+      cursor: pointer;
+      margin: 5px;
+    }
+    .timer-circle {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      background: white;
+      color: #c47c00;
+      font-weight: bold;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+  </style>
+</head>
+<body>
+  <a href="index.html" class="back">← חזרה לדף הבית</a>
+  <header>
+    <h1>🏆 חידון מעורב</h1>
+    <p>מתמטיקה + אנגלית • קבל ניקוד וכוכבים!</p>
+  </header>
+
+  <!-- START SCREEN -->
+  <div id="start-screen">
+    <div style="font-size:3rem; margin-bottom:15px;">🎯</div>
+    <h2>בחר רמת קושי</h2>
+    <p>החידון כולל <b>15 שאלות</b> ממתמטיקה ואנגלית.<br>
+    ענה כמה שיותר נכון וקבל כוכבים! ⭐</p>
+    <div class="difficulty-btns">
+      <button class="diff-btn easy active" onclick="selectDiff('easy', this)">😊 קל</button>
+      <button class="diff-btn medium" onclick="selectDiff('medium', this)">😤 בינוני</button>
+      <button class="diff-btn hard" onclick="selectDiff('hard', this)">🔥 קשה</button>
+    </div>
+    <button class="start-btn" onclick="startQuiz()">▶ התחל חידון!</button>
+  </div>
+
+  <!-- QUIZ SCREEN -->
+  <div id="quiz-screen">
+    <div class="progress-bar-wrap"><div class="progress-bar" id="progress-bar"></div></div>
+    <div class="quiz-meta">
+      <span id="q-counter">שאלה 1 מתוך 15</span>
+      <div class="timer-circle" id="timer">30</div>
+      <span id="q-score">ניקוד: 0</span>
+    </div>
+    <div class="question-card">
+      <span class="subject-tag" id="subject-tag"></span>
+      <div class="question-text" id="question-text"></div>
+      <div class="options" id="options-container"></div>
+      <div class="feedback" id="feedback"></div>
+      <button class="next-btn" id="next-btn" onclick="nextQuestion()">הבא ← </button>
+    </div>
+  </div>
+
+  <!-- RESULT SCREEN -->
+  <div id="result-screen">
+    <div class="trophy" id="trophy">🏆</div>
+    <h2 id="result-title">כל הכבוד!</h2>
+    <div class="score-big" id="result-score"></div>
+    <div class="stars-display" id="stars-display"></div>
+    <p id="result-msg"></p>
+    <p id="result-detail" style="font-size:0.9rem; color:#999;"></p>
+    <br>
+    <button class="replay-btn" onclick="restartQuiz()">🔄 שחק שוב</button>
+    <button class="replay-btn" onclick="window.location.href='index.html'" style="background:white;color:#f7971e;border:3px solid #f7971e;">🏠 דף הבית</button>
+  </div>
+
+  <script>
+    // ======= ALL QUESTIONS POOL =======
+    const allQuestions = {
+      easy: [
+        // Math
+        { subj:'math', q:'כמה זה 5 + 3?', opts:['6','7','8','9'], ans:2 },
+        { subj:'math', q:'כמה זה 10 – 4?', opts:['4','5','6','7'], ans:2 },
+        { subj:'math', q:'כמה זה 3 × 4?', opts:['10','11','12','13'], ans:2 },
+        { subj:'math', q:'כמה זה 15 ÷ 3?', opts:['3','4','5','6'], ans:2 },
+        { subj:'math', q:'כמה זה 7 + 8?', opts:['13','14','15','16'], ans:2 },
+        { subj:'math', q:'½ מ-10 שווה:', opts:['3','4','5','6'], ans:2 },
+        { subj:'math', q:'היקף ריבוע עם צלע 4 הוא:', opts:['8','12','16','20'], ans:2 },
+        { subj:'math', q:'כמה זה 6 × 6?', opts:['30','34','36','38'], ans:2 },
+        { subj:'math', q:'כמה זה 20 – 13?', opts:['5','6','7','8'], ans:2 },
+        { subj:'math', q:'כמה זה 4 × 5?', opts:['18','19','20','21'], ans:2 },
+        // English
+        { subj:'english', q:'מה פירוש "dog"?', opts:['חתול','כלב','ציפור','דג'], ans:1 },
+        { subj:'english', q:'מה פירוש "apple"?', opts:['תפוז','בננה','תפוח','ענב'], ans:2 },
+        { subj:'english', q:'מה פירוש "big"?', opts:['קטן','גדול','מהיר','איטי'], ans:1 },
+        { subj:'english', q:'כיצד אומרים "בית" באנגלית?', opts:['school','house','car','tree'], ans:1 },
+        { subj:'english', q:'מה פירוש "mother"?', opts:['אחות','אח','אמא','אבא'], ans:2 },
+        { subj:'english', q:'כמה ימים בשבוע? (How many days in a week?)', opts:['5','6','7','8'], ans:2 },
+        { subj:'english', q:'מה הרבים של "cat"?', opts:['cat','catz','cats','cates'], ans:2 },
+        { subj:'english', q:'מה פירוש "happy"?', opts:['עצוב','כועס','שמח','עייף'], ans:2 },
+        { subj:'english', q:'מה פירוש "run"?', opts:['לאכול','לישון','לשחק','לרוץ'], ans:3 },
+        { subj:'english', q:'איזו מילה היא צבע? (Which is a color?)', opts:['dog','run','red','table'], ans:2 },
+      ],
+      medium: [
+        { subj:'math', q:'כמה זה 47 + 36?', opts:['81','83','85','87'], ans:1 },
+        { subj:'math', q:'כמה זה 125 – 67?', opts:['56','57','58','59'], ans:2 },
+        { subj:'math', q:'כמה זה 8 × 7?', opts:['52','54','56','58'], ans:2 },
+        { subj:'math', q:'כמה זה 72 ÷ 8?', opts:['7','8','9','10'], ans:2 },
+        { subj:'math', q:'¾ מ-12 שווה:', opts:['7','8','9','10'], ans:2 },
+        { subj:'math', q:'שטח מלבן אורך 6 רוחב 4:', opts:['20','22','24','26'], ans:2 },
+        { subj:'math', q:'כמה זה 256 + 147?', opts:['393','400','403','410'], ans:2 },
+        { subj:'math', q:'כמה זה 9 × 9?', opts:['72','78','81','84'], ans:2 },
+        { subj:'math', q:'לדנה 24 תפוחים ו-6 חברים. כמה לכל חבר?', opts:['3','4','5','6'], ans:1 },
+        { subj:'math', q:'היקף מלבן אורך 8 רוחב 5:', opts:['24','26','28','30'], ans:2 },
+        { subj:'english', q:'בחר את הנכון: She ___ to school every day.', opts:['go','goes','going','went'], ans:1 },
+        { subj:'english', q:'מה ה-past (עבר) של "play"?', opts:['plays','playing','played','will play'], ans:2 },
+        { subj:'english', q:'The cat is ___ the table. (מילת יחס נכונה)', opts:['in','on','and','big'], ans:1 },
+        { subj:'english', q:'מה פירוש "between"?', opts:['מתחת','מעל','בין','ליד'], ans:2 },
+        { subj:'english', q:'מה הרבים של "box"?', opts:['boxs','box','boxes','boxies'], ans:2 },
+        { subj:'english', q:'מה פירוש "beautiful"?', opts:['מגעיל','יפה','גדול','מהיר'], ans:1 },
+        { subj:'english', q:'I ___ a book now. (בחר פועל)', opts:['reads','reading','am reading','red'], ans:2 },
+        { subj:'english', q:'מה סוג המילה "quickly"?', opts:['noun','verb','adjective','adverb'], ans:3 },
+        { subj:'english', q:'מה פירוש "yesterday"?', opts:['מחר','היום','אתמול','עכשיו'], ans:2 },
+        { subj:'english', q:'כיצד שואלים "מה שמך?" באנגלית?', opts:['How are you?','What is your name?','How old are you?','Where are you?'], ans:1 },
+      ],
+      hard: [
+        { subj:'math', q:'כמה זה 389 + 247?', opts:['626','634','636','646'], ans:2 },
+        { subj:'math', q:'כמה זה 500 – 263?', opts:['233','235','237','239'], ans:2 },
+        { subj:'math', q:'כמה זה 12 × 13?', opts:['144','150','156','160'], ans:2 },
+        { subj:'math', q:'אוטובוס: 47 נוסעים, יורדים 19, עולים 8. כמה יש עכשיו?', opts:['34','36','38','40'], ans:1 },
+        { subj:'math', q:'⅔ מ-18 שווה:', opts:['10','11','12','13'], ans:2 },
+        { subj:'math', q:'שטח ריבוע עם צלע 11:', opts:['99','110','121','132'], ans:2 },
+        { subj:'math', q:'כמה זה 144 ÷ 12?', opts:['11','12','13','14'], ans:1 },
+        { subj:'math', q:'3 פריטים: 35₪, 47₪, 18₪. סכום כולל?', opts:['90','95','100','105'], ans:2 },
+        { subj:'math', q:'היקף מלבן אורך 13 רוחב 7:', opts:['36','38','40','42'], ans:2 },
+        { subj:'math', q:'כמה זה 7 × 8 + 6?', opts:['60','62','64','66'], ans:2 },
+        { subj:'english', q:'Choose the correct sentence:', opts:['She go to school.','She goes to school.','She going to school.','She goed to school.'], ans:1 },
+        { subj:'english', q:'מה ה-plural של "child"?', opts:['childs','childen','children','childre'], ans:2 },
+        { subj:'english', q:'Tomorrow I ___ visit my grandmother.', opts:['go','went','will go','going'], ans:2 },
+        { subj:'english', q:'מה פירוש "although"?', opts:['כי','אבל/למרות ש','אם','כאשר'], ans:1 },
+        { subj:'english', q:'The students ___ studying now.', opts:['is','am','are','be'], ans:2 },
+        { subj:'english', q:'מה ה-comparative של "good"?', opts:['gooder','more good','better','best'], ans:2 },
+        { subj:'english', q:'She has been living here ___ 5 years.', opts:['since','for','from','during'], ans:1 },
+        { subj:'english', q:'מה פירוש "necessary"?', opts:['מיותר','נחוץ','קשה','קל'], ans:1 },
+        { subj:'english', q:'Which is the correct spelling?', opts:['recieve','receive','receve','recieve'], ans:1 },
+        { subj:'english', q:'I ___ my homework before dinner yesterday.', opts:['do','does','did','done'], ans:2 },
+      ]
+    };
+
+    let currentDiff = 'easy';
+    let questions = [];
+    let currentQ = 0;
+    let score = 0;
+    let timerInterval = null;
+    let timeLeft = 30;
+    let answered = false;
+
+    function selectDiff(diff, btn) {
+      currentDiff = diff;
+      document.querySelectorAll('.diff-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    }
+
+    function shuffle(arr) {
+      return [...arr].sort(() => Math.random() - 0.5);
+    }
+
+    function startQuiz() {
+      questions = shuffle(allQuestions[currentDiff]).slice(0, 15);
+      currentQ = 0;
+      score = 0;
+      document.getElementById('start-screen').style.display = 'none';
+      document.getElementById('result-screen').style.display = 'none';
+      document.getElementById('quiz-screen').style.display = 'block';
+      showQuestion();
+    }
+
+    function showQuestion() {
+      answered = false;
+      const q = questions[currentQ];
+      const total = questions.length;
+
+      document.getElementById('progress-bar').style.width = (currentQ / total * 100) + '%';
+      document.getElementById('q-counter').textContent = `שאלה ${currentQ+1} מתוך ${total}`;
+      document.getElementById('q-score').textContent = `ניקוד: ${score}`;
+
+      const tag = document.getElementById('subject-tag');
+      if (q.subj === 'math') {
+        tag.textContent = '🔢 מתמטיקה';
+        tag.className = 'subject-tag tag-math';
+      } else {
+        tag.textContent = '🔤 אנגלית';
+        tag.className = 'subject-tag tag-english';
+      }
+
+      document.getElementById('question-text').textContent = q.q;
+      document.getElementById('feedback').textContent = '';
+      document.getElementById('next-btn').style.display = 'none';
+
+      const optsContainer = document.getElementById('options-container');
+      optsContainer.innerHTML = '';
+      q.opts.forEach((opt, i) => {
+        const btn = document.createElement('button');
+        btn.className = 'option-btn';
+        btn.textContent = opt;
+        btn.onclick = () => selectAnswer(i, q.ans, btn);
+        optsContainer.appendChild(btn);
+      });
+
+      startTimer();
+    }
+
+    function startTimer() {
+      clearInterval(timerInterval);
+      timeLeft = currentDiff === 'easy' ? 30 : currentDiff === 'medium' ? 20 : 15;
+      document.getElementById('timer').textContent = timeLeft;
+      timerInterval = setInterval(() => {
+        timeLeft--;
+        document.getElementById('timer').textContent = timeLeft;
+        if (timeLeft <= 0) {
+          clearInterval(timerInterval);
+          if (!answered) {
+            answered = true;
+            timeUp();
+          }
+        }
+      }, 1000);
+    }
+
+    function timeUp() {
+      const q = questions[currentQ];
+      const btns = document.querySelectorAll('.option-btn');
+      btns.forEach((b, i) => {
+        b.disabled = true;
+        if (i === q.ans) b.classList.add('reveal');
+      });
+      document.getElementById('feedback').textContent = '⏰ הזמן נגמר! התשובה הנכונה מסומנת.';
+      document.getElementById('feedback').style.color = '#FF9800';
+      document.getElementById('next-btn').style.display = 'block';
+    }
+
+    function selectAnswer(chosen, correct, btn) {
+      if (answered) return;
+      answered = true;
+      clearInterval(timerInterval);
+
+      const btns = document.querySelectorAll('.option-btn');
+      btns.forEach(b => b.disabled = true);
+
+      const fb = document.getElementById('feedback');
+      if (chosen === correct) {
+        btn.classList.add('correct');
+        score++;
+        document.getElementById('q-score').textContent = `ניקוד: ${score}`;
+        fb.textContent = '✅ נכון! כל הכבוד!';
+        fb.style.color = '#28a745';
+      } else {
+        btn.classList.add('wrong');
+        btns[correct].classList.add('reveal');
+        fb.textContent = `❌ לא נכון. התשובה הנכונה מסומנת בירוק.`;
+        fb.style.color = '#dc3545';
+      }
+      document.getElementById('next-btn').style.display = 'block';
+    }
+
+    function nextQuestion() {
+      currentQ++;
+      if (currentQ >= questions.length) {
+        showResult();
+      } else {
+        showQuestion();
+      }
+    }
+
+    function showResult() {
+      clearInterval(timerInterval);
+      document.getElementById('quiz-screen').style.display = 'none';
+      document.getElementById('result-screen').style.display = 'block';
+
+      const total = questions.length;
+      const pct = Math.round(score / total * 100);
+
+      let stars = '';
+      let trophy = '';
+      let title = '';
+      let msg = '';
+
+      if (pct === 100) {
+        stars = '⭐⭐⭐'; trophy = '🏆'; title = 'מושלם לחלוטין!';
+        msg = 'ואוו! ענית נכון על כל השאלות! אתה גאון אמיתי! 🎉';
+      } else if (pct >= 80) {
+        stars = '⭐⭐⭐'; trophy = '🥇'; title = 'מדהים!';
+        msg = 'תוצאה מעולה! עוד קצת ותגיע לשלמות! 💪';
+      } else if (pct >= 60) {
+        stars = '⭐⭐'; trophy = '🥈'; title = 'כל הכבוד!';
+        msg = 'תוצאה טובה מאוד! המשך לתרגל ותשתפר עוד! 📚';
+      } else if (pct >= 40) {
+        stars = '⭐'; trophy = '🥉'; title = 'לא רע!';
+        msg = 'תוצאה בסדר – חזור על החומר ונסה שוב! 💡';
+      } else {
+        stars = ''; trophy = '💪'; title = 'אל תוותר!';
+        msg = 'זה בסדר! לומדים מטעויות. חזור לחומר ונסה שוב! 📖';
+      }
+
+      document.getElementById('trophy').textContent = trophy;
+      document.getElementById('result-title').textContent = title;
+      document.getElementById('result-score').textContent = `${score} / ${total}`;
+      document.getElementById('stars-display').textContent = stars;
+      document.getElementById('result-msg').textContent = msg;
+      document.getElementById('result-detail').textContent = `ענית נכון על ${score} שאלות מתוך ${total} (${pct}%) • רמה: ${currentDiff === 'easy' ? 'קל 😊' : currentDiff === 'medium' ? 'בינוני 😤' : 'קשה 🔥'}`;
+    }
+
+    function restartQuiz() {
+      document.getElementById('result-screen').style.display = 'none';
+      document.getElementById('start-screen').style.display = 'block';
+    }
+  </script>
+</body>
+</html>

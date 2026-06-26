@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>מתמטיקה 🔢</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #fff5f5;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    header {
+      background: linear-gradient(135deg, #FF6B6B, #ee0979);
+      color: white;
+      text-align: center;
+      padding: 25px;
+      border-radius: 20px;
+      margin-bottom: 25px;
+    }
+    header h1 { font-size: 2.2rem; }
+    header p { opacity: 0.9; margin-top: 5px; }
+    .back { display:inline-block; background:white; color:#FF6B6B; border:none; padding:10px 20px; border-radius:50px; font-size:1rem; cursor:pointer; font-weight:bold; text-decoration:none; margin-bottom:15px; }
+    .back:hover { background:#ffe0e0; }
+
+    .tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 25px;
+      justify-content: center;
+    }
+    .tab {
+      background: white;
+      border: 3px solid #FF6B6B;
+      color: #FF6B6B;
+      padding: 10px 20px;
+      border-radius: 50px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: bold;
+      transition: all 0.2s;
+    }
+    .tab.active, .tab:hover {
+      background: #FF6B6B;
+      color: white;
+    }
+
+    .section { display: none; }
+    .section.active { display: block; }
+
+    .explain-box {
+      background: #fff3cd;
+      border-right: 5px solid #ffc107;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+      font-size: 1.05rem;
+      line-height: 1.7;
+    }
+    .explain-box h3 { color: #856404; margin-bottom: 8px; font-size: 1.2rem; }
+    .explain-box .example {
+      background: white;
+      border-radius: 8px;
+      padding: 10px 15px;
+      margin-top: 10px;
+      font-family: monospace;
+      font-size: 1.1rem;
+    }
+
+    .exercises-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+    .exercise-card {
+      background: white;
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    .exercise-card .question {
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin-bottom: 12px;
+      color: #333;
+    }
+    .exercise-card input {
+      width: 80px;
+      padding: 8px;
+      font-size: 1.2rem;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      text-align: center;
+      outline: none;
+    }
+    .exercise-card input:focus { border-color: #FF6B6B; }
+    .exercise-card .result {
+      margin-top: 8px;
+      font-size: 0.95rem;
+      font-weight: bold;
+      min-height: 22px;
+    }
+    .correct { color: #28a745; }
+    .wrong { color: #dc3545; }
+
+    .check-btn {
+      background: #FF6B6B;
+      color: white;
+      border: none;
+      padding: 8px 18px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 0.95rem;
+      margin-top: 8px;
+    }
+    .check-btn:hover { background: #ee0979; }
+
+    .word-problem {
+      background: white;
+      border-radius: 15px;
+      padding: 22px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+      margin-bottom: 15px;
+    }
+    .word-problem p { font-size: 1.05rem; line-height: 1.6; margin-bottom: 12px; color: #333; }
+    .word-problem .emoji { font-size: 1.5rem; margin-left: 8px; }
+
+    .score-bar {
+      background: #ffe0e0;
+      border-radius: 10px;
+      padding: 12px 20px;
+      margin-bottom: 20px;
+      font-weight: bold;
+      color: #cc0000;
+      text-align: center;
+      font-size: 1.1rem;
+    }
+
+    .tip-box {
+      background: #e8f5e9;
+      border-right: 5px solid #4caf50;
+      border-radius: 12px;
+      padding: 15px 20px;
+      margin-bottom: 20px;
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+    .tip-box h4 { color: #2e7d32; margin-bottom: 5px; }
+
+    .fraction-visual {
+      display: flex;
+      gap: 4px;
+      justify-content: center;
+      margin: 10px 0;
+    }
+    .frac-piece {
+      width: 35px;
+      height: 35px;
+      border-radius: 4px;
+      border: 2px solid #FF6B6B;
+    }
+    .frac-piece.filled { background: #FF6B6B; }
+
+    table.mult-table {
+      border-collapse: collapse;
+      margin: 0 auto 20px;
+      font-size: 1rem;
+    }
+    table.mult-table td, table.mult-table th {
+      border: 1px solid #ddd;
+      padding: 8px 12px;
+      text-align: center;
+    }
+    table.mult-table th { background: #FF6B6B; color: white; }
+    table.mult-table tr:nth-child(even) td { background: #fff5f5; }
+  </style>
+</head>
+<body>
+  <a href="index.html" class="back">← חזרה לדף הבית</a>
+  <header>
+    <h1>🔢 מתמטיקה</h1>
+    <p>כיתות ג'–ה' • לחץ על נושא כדי להתחיל!</p>
+  </header>
+
+  <div class="tabs">
+    <button class="tab active" onclick="showSection('addition')">➕ חיבור וחיסור</button>
+    <button class="tab" onclick="showSection('multiply')">✖️ כפל</button>
+    <button class="tab" onclick="showSection('divide')">➗ חילוק</button>
+    <button class="tab" onclick="showSection('fractions')">🍕 שברים</button>
+    <button class="tab" onclick="showSection('geometry')">📐 גאומטריה</button>
+    <button class="tab" onclick="showSection('word')">📖 בעיות מילוליות</button>
+  </div>
+
+  <!-- ===== חיבור וחיסור ===== -->
+  <div id="addition" class="section active">
+    <div class="explain-box">
+      <h3>📚 הסבר – חיבור וחיסור</h3>
+      <p>כשמחברים מספרים, מתחילים מהיחידות, אחר כך העשרות, ואז המאות.</p>
+      <p>כשיש <b>העברה (נשיאה)</b> – מוסיפים 1 לטור הבא!</p>
+      <div class="example">
+        &nbsp;&nbsp;347<br>
+        + 285<br>
+        ─────<br>
+        &nbsp;&nbsp;632 ✅<br><br>
+        7+5=12 → כותבים 2, נושאים 1<br>
+        4+8+1=13 → כותבים 3, נושאים 1<br>
+        3+2+1=6
+      </div>
+    </div>
+    <div class="tip-box">
+      <h4>💡 טיפ חשוב</h4>
+      תמיד יישרו את המספרים לפי יחידות, עשרות, מאות. אחרת תטעו!
+    </div>
+    <div class="score-bar" id="add-score">✏️ פתור תרגילים וקבל ניקוד!</div>
+    <div class="exercises-grid" id="add-grid"></div>
+  </div>
+
+  <!-- ===== כפל ===== -->
+  <div id="multiply" class="section">
+    <div class="explain-box">
+      <h3>📚 הסבר – כפל</h3>
+      <p>כפל זה חיבור חוזר! <b>3 × 4</b> זה אותו דבר כמו <b>4+4+4 = 12</b></p>
+      <div class="example">
+        3 × 4 = 12<br>
+        5 × 7 = 35<br>
+        6 × 8 = 48<br>
+        9 × 9 = 81
+      </div>
+      <p style="margin-top:10px">לוח הכפל מגיע עד 10×10 – חשוב לדעת אותו בעל פה!</p>
+    </div>
+    <h3 style="text-align:center; margin-bottom:15px; color:#FF6B6B;">📊 לוח הכפל</h3>
+    <table class="mult-table" id="mult-table"></table>
+    <div class="score-bar" id="mult-score">✏️ פתור תרגילים וקבל ניקוד!</div>
+    <div class="exercises-grid" id="mult-grid"></div>
+  </div>
+
+  <!-- ===== חילוק ===== -->
+  <div id="divide" class="section">
+    <div class="explain-box">
+      <h3>📚 הסבר – חילוק</h3>
+      <p>חילוק זה ההפך מכפל. אם <b>3 × 4 = 12</b>, אז <b>12 ÷ 3 = 4</b></p>
+      <div class="example">
+        20 ÷ 4 = 5 (כי 4 × 5 = 20)<br>
+        36 ÷ 6 = 6 (כי 6 × 6 = 36)<br>
+        45 ÷ 9 = 5 (כי 9 × 5 = 45)
+      </div>
+    </div>
+    <div class="tip-box">
+      <h4>💡 טיפ</h4>
+      כשלא זוכרים תוצאת חילוק – חשבו על לוח הכפל! שאלו את עצמכם "כמה כפול X שווה ל-Y?"
+    </div>
+    <div class="score-bar" id="div-score">✏️ פתור תרגילים וקבל ניקוד!</div>
+    <div class="exercises-grid" id="div-grid"></div>
+  </div>
+
+  <!-- ===== שברים ===== -->
+  <div id="fractions" class="section">
+    <div class="explain-box">
+      <h3>📚 הסבר – שברים</h3>
+      <p>שבר מייצג <b>חלק</b> ממשהו שלם.</p>
+      <p><b>½</b> = חצי | <b>¼</b> = רבע | <b>¾</b> = שלושה רבעים</p>
+      <p style="margin-top:8px">המספר <b>למטה</b> (מכנה) = כמה חלקים יש בסך הכל<br>
+      המספר <b>למעלה</b> (מונה) = כמה חלקים לוקחים</p>
+      <div class="example">
+        🍕 פיצה חתוכה ל-8 פרוסות, אכלתם 3:<br>
+        שאכלתם = <b>3/8</b> מהפיצה<br><br>
+        ½ + ½ = 1 (שלם)<br>
+        ¼ + ¼ = ½
+      </div>
+    </div>
+
+    <h3 style="text-align:center; color:#FF6B6B; margin-bottom:15px;">🎨 הדמיה ויזואלית</h3>
+    <div style="display:flex; gap:30px; flex-wrap:wrap; justify-content:center; margin-bottom:25px;">
+      <div style="text-align:center">
+        <p style="margin-bottom:8px; font-weight:bold;">½ (חצי)</p>
+        <div class="fraction-visual">
+          <div class="frac-piece filled"></div>
+          <div class="frac-piece"></div>
+        </div>
+      </div>
+      <div style="text-align:center">
+        <p style="margin-bottom:8px; font-weight:bold;">¾ (שלושה רבעים)</p>
+        <div class="fraction-visual">
+          <div class="frac-piece filled"></div>
+          <div class="frac-piece filled"></div>
+          <div class="frac-piece filled"></div>
+          <div class="frac-piece"></div>
+        </div>
+      </div>
+      <div style="text-align:center">
+        <p style="margin-bottom:8px; font-weight:bold;">⅔ (שני שלישים)</p>
+        <div class="fraction-visual">
+          <div class="frac-piece filled"></div>
+          <div class="frac-piece filled"></div>
+          <div class="frac-piece"></div>
+        </div>
+      </div>
+    </div>
+    <div class="score-bar" id="frac-score">✏️ פתור תרגילים וקבל ניקוד!</div>
+    <div class="exercises-grid" id="frac-grid"></div>
+  </div>
+
+  <!-- ===== גאומטריה ===== -->
+  <div id="geometry" class="section">
+    <div class="explain-box">
+      <h3>📚 הסבר – גאומטריה</h3>
+      <p><b>היקף</b> = סכום כל הצלעות (הדרך סביב הצורה)</p>
+      <p><b>שטח</b> = הגודל הפנימי של הצורה</p>
+      <div class="example">
+        ריבוע עם צלע 5:<br>
+        היקף = 4 × 5 = 20<br>
+        שטח = 5 × 5 = 25<br><br>
+        מלבן עם אורך 6 ורוחב 4:<br>
+        היקף = 2 × (6+4) = 20<br>
+        שטח = 6 × 4 = 24
+      </div>
+    </div>
+    <div class="score-bar" id="geo-score">✏️ פתור תרגילים וקבל ניקוד!</div>
+    <div class="exercises-grid" id="geo-grid"></div>
+  </div>
+
+  <!-- ===== בעיות מילוליות ===== -->
+  <div id="word" class="section">
+    <div class="explain-box">
+      <h3>📚 איך פותרים בעיות מילוליות?</h3>
+      <ol style="padding-right:20px; margin-top:8px; line-height:2">
+        <li>קראו את השאלה פעמיים</li>
+        <li>סמנו את המספרים החשובים</li>
+        <li>הבינו מה שואלים: חיבור? חיסור? כפל? חילוק?</li>
+        <li>כתבו תרגיל ופתרו</li>
+        <li>בדקו שהתשובה הגיונית</li>
+      </ol>
+    </div>
+    <div id="word-problems"></div>
+  </div>
+
+  <script>
+    // ======= TABS =======
+    function showSection(id) {
+      document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      event.target.classList.add('active');
+    }
+
+    // ======= SCORE TRACKING =======
+    const scores = { add: [0,0], mult: [0,0], div: [0,0], frac: [0,0], geo: [0,0] };
+
+    function updateScore(key) {
+      const [correct, total] = scores[key];
+      const el = document.getElementById(key + '-score');
+      if (total === 0) { el.textContent = '✏️ פתור תרגילים וקבל ניקוד!'; return; }
+      const pct = Math.round(correct/total*100);
+      el.textContent = `⭐ ניקוד: ${correct}/${total} (${pct}%) ${pct===100?'🏆 מושלם!':pct>=70?'👍 כל הכבוד!':'💪 המשך לנסות!'}`;
+    }
+
+    // ======= EXERCISE BUILDER =======
+    function makeExercise(question, answer, containerId, scoreKey) {
+      const grid = document.getElementById(containerId);
+      const card = document.createElement('div');
+      card.className = 'exercise-card';
+      const id = Math.random().toString(36).slice(2);
+      card.innerHTML = `
+        <div class="question">${question}</div>
+        <input type="number" id="inp-${id}" placeholder="?" />
+        <br>
+        <button class="check-btn" onclick="checkAnswer('${id}', ${answer}, '${scoreKey}', this)">בדוק ✓</button>
+        <div class="result" id="res-${id}"></div>
+      `;
+      grid.appendChild(card);
+    }
+
+    function checkAnswer(id, correct, scoreKey, btn) {
+      const val = parseInt(document.getElementById('inp-' + id).value);
+      const res = document.getElementById('res-' + id);
+      if (isNaN(val)) { res.textContent = 'הכנס מספר!'; res.className = 'result wrong'; return; }
+      scores[scoreKey][1]++;
+      if (val === correct) {
+        scores[scoreKey][0]++;
+        res.textContent = '✅ נכון! מצוין!';
+        res.className = 'result correct';
+        btn.disabled = true;
+        document.getElementById('inp-'+id).disabled = true;
+      } else {
+        res.textContent = `❌ לא נכון. התשובה: ${correct}`;
+        res.className = 'result wrong';
+        btn.disabled = true;
+        document.getElementById('inp-'+id).disabled = true;
+      }
+      updateScore(scoreKey);
+    }
+
+    // ======= ADDITION EXERCISES =======
+    const addEx = [
+      ['23 + 15 = ?', 38], ['47 + 36 = ?', 83], ['125 + 64 = ?', 189],
+      ['256 + 147 = ?', 403], ['389 + 211 = ?', 600], ['75 – 32 = ?', 43],
+      ['92 – 47 = ?', 45], ['200 – 85 = ?', 115], ['347 – 129 = ?', 218],
+      ['500 – 263 = ?', 237], ['68 + 74 = ?', 142], ['430 – 185 = ?', 245],
+    ];
+    addEx.forEach(([q,a]) => makeExercise(q, a, 'add-grid', 'add'));
+
+    // ======= MULTIPLICATION TABLE =======
+    const tbl = document.getElementById('mult-table');
+    let hrow = '<tr><th>×</th>';
+    for (let i=1;i<=10;i++) hrow += `<th>${i}</th>`;
+    hrow += '</tr>'; tbl.innerHTML = hrow;
+    for (let i=1;i<=10;i++) {
+      let row = `<tr><th>${i}</th>`;
+      for (let j=1;j<=10;j++) row += `<td>${i*j}</td>`;
+      row += '</tr>'; tbl.innerHTML += row;
+    }
+
+    // ======= MULTIPLICATION EXERCISES =======
+    const multEx = [
+      ['3 × 4 = ?', 12], ['5 × 6 = ?', 30], ['7 × 8 = ?', 56],
+      ['9 × 3 = ?', 27], ['6 × 6 = ?', 36], ['4 × 8 = ?', 32],
+      ['7 × 7 = ?', 49], ['9 × 6 = ?', 54], ['8 × 8 = ?', 64],
+      ['10 × 7 = ?', 70], ['6 × 9 = ?', 54], ['12 × 4 = ?', 48],
+    ];
+    multEx.forEach(([q,a]) => makeExercise(q, a, 'mult-grid', 'mult'));
+
+    // ======= DIVISION EXERCISES =======
+    const divEx = [
+      ['12 ÷ 3 = ?', 4], ['20 ÷ 4 = ?', 5], ['36 ÷ 6 = ?', 6],
+      ['48 ÷ 8 = ?', 6], ['63 ÷ 7 = ?', 9], ['45 ÷ 5 = ?', 9],
+      ['72 ÷ 9 = ?', 8], ['56 ÷ 7 = ?', 8], ['81 ÷ 9 = ?', 9],
+      ['100 ÷ 10 = ?', 10], ['42 ÷ 6 = ?', 7], ['64 ÷ 8 = ?', 8],
+    ];
+    divEx.forEach(([q,a]) => makeExercise(q, a, 'div-grid', 'div'));
+
+    // ======= FRACTIONS EXERCISES (as *10 to avoid decimals) =======
+    // Displayed as text, answer as integer
+    const fracEx = [
+      ['½ מ-10 = ?', 5], ['¼ מ-20 = ?', 5], ['⅓ מ-9 = ?', 3],
+      ['¾ מ-8 = ?', 6], ['½ מ-14 = ?', 7], ['⅓ מ-15 = ?', 5],
+      ['¼ מ-16 = ?', 4], ['⅔ מ-12 = ?', 8], ['¾ מ-12 = ?', 9],
+      ['½ מ-100 = ?', 50],
+    ];
+    fracEx.forEach(([q,a]) => makeExercise(q, a, 'frac-grid', 'frac'));
+
+    // ======= GEOMETRY EXERCISES =======
+    const geoEx = [
+      ['היקף ריבוע עם צלע 5 = ?', 20],
+      ['שטח ריבוע עם צלע 6 = ?', 36],
+      ['היקף מלבן אורך 8 רוחב 3 = ?', 22],
+      ['שטח מלבן אורך 7 רוחב 4 = ?', 28],
+      ['היקף ריבוע צלע 9 = ?', 36],
+      ['שטח מלבן אורך 10 רוחב 5 = ?', 50],
+      ['היקף מלבן אורך 12 רוחב 6 = ?', 36],
+      ['שטח ריבוע צלע 8 = ?', 64],
+    ];
+    geoEx.forEach(([q,a]) => makeExercise(q, a, 'geo-grid', 'geo'));
+
+    // ======= WORD PROBLEMS =======
+    const wordProblems = [
+      {
+        emoji: '🍎',
+        q: 'לדנה יש 24 תפוחים. היא חילקה אותם שווה בשווה ל-6 חברים. כמה תפוחים קיבל כל חבר?',
+        hint: 'חלקו: 24 ÷ 6',
+        ans: 4
+      },
+      {
+        emoji: '🚌',
+        q: 'באוטובוס היו 47 נוסעים. בתחנה ירדו 19 ועלו 8. כמה נוסעים יש עכשיו?',
+        hint: '47 – 19 + 8',
+        ans: 36
+      },
+      {
+        emoji: '🍫',
+        q: 'חבילת שוקולד עולה 12 שקלים. יובל קנה 5 חבילות. כמה שילם?',
+        hint: 'כפלו: 12 × 5',
+        ans: 60
+      },
+      {
+        emoji: '📚',
+        q: 'ספר מכיל 120 עמודים. קראתי 45 עמודים. כמה עמודים נשארו?',
+        hint: '120 – 45',
+        ans: 75
+      },
+      {
+        emoji: '🎂',
+        q: 'עוגה חתוכה ל-8 פרוסות. אכלו 3 פרוסות. כמה פרוסות נשארו?',
+        hint: '8 – 3',
+        ans: 5
+      },
+      {
+        emoji: '⚽',
+        q: 'בקופסה יש 9 שורות של כדורים, כל שורה יש 7 כדורים. כמה כדורים בסך הכל?',
+        hint: '9 × 7',
+        ans: 63
+      },
+      {
+        emoji: '🏪',
+        q: 'נועה קנתה שלושה פריטים: 35 ש"ח, 47 ש"ח ו-18 ש"ח. כמה שילמה בסך הכל?',
+        hint: '35 + 47 + 18',
+        ans: 100
+      },
+      {
+        emoji: '🐟',
+        q: 'יש 48 דגים ב-6 אקווריומים שווים. כמה דגים בכל אקווריום?',
+        hint: '48 ÷ 6',
+        ans: 8
+      },
+    ];
+
+    const wpContainer = document.getElementById('word-problems');
+    wordProblems.forEach((prob, i) => {
+      const id = 'wp' + i;
+      const div = document.createElement('div');
+      div.className = 'word-problem';
+      div.innerHTML = `
+        <p><span class="emoji">${prob.emoji}</span>${prob.q}</p>
+        <p style="color:#888; font-size:0.9rem">💡 רמז: ${prob.hint}</p>
+        <input type="number" id="${id}" placeholder="התשובה שלי..." style="padding:8px; font-size:1rem; border:2px solid #ddd; border-radius:8px; margin-top:8px; width:160px;">
+        <button class="check-btn" onclick="checkWord('${id}', ${prob.ans}, this)" style="margin-right:10px">בדוק ✓</button>
+        <div class="result" id="r${id}"></div>
+      `;
+      wpContainer.appendChild(div);
+    });
+
+    function checkWord(id, correct, btn) {
+      const val = parseInt(document.getElementById(id).value);
+      const res = document.getElementById('r' + id);
+      if (isNaN(val)) { res.textContent = 'הכנס מספר!'; res.className='result wrong'; return; }
+      btn.disabled = true;
+      document.getElementById(id).disabled = true;
+      if (val === correct) {
+        res.textContent = '✅ נכון! כל הכבוד!';
+        res.className = 'result correct';
+      } else {
+        res.textContent = `❌ לא נכון. התשובה הנכונה: ${correct}`;
+        res.className = 'result wrong';
+      }
+    }
+  </script>
+</body>
+</html>
