@@ -169,6 +169,46 @@
     }
     .sc-btn:hover { background: #0b8c84; }
 
+    /* ── ALPHABET / PHONICS ── */
+    .alpha-section-title {
+      font-size: 1.1rem; font-weight: bold; color: #006064;
+      margin: 22px 0 10px; padding-bottom: 6px;
+      border-bottom: 2px solid #b2ebf2;
+    }
+    .alpha-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      gap: 10px; margin-bottom: 20px;
+    }
+    .alpha-card {
+      background: white; border-radius: 13px; padding: 12px 8px;
+      text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      border-top: 4px solid #4ECDC4; transition: transform 0.15s;
+      cursor: default;
+    }
+    .alpha-card:hover { transform: translateY(-3px); box-shadow: 0 5px 14px rgba(0,0,0,0.13); }
+    .alpha-card .letter {
+      font-size: 1.9rem; font-weight: bold; color: #006064;
+      direction: ltr; display: block; line-height: 1.1;
+    }
+    .alpha-card .letter-name { font-size: 0.78rem; color: #888; direction: ltr; margin: 2px 0; }
+    .alpha-card .sound-heb  { font-size: 0.95rem; color: #333; font-weight: bold; margin-top: 4px; }
+    .alpha-card .example    { font-size: 0.75rem; color: #4ECDC4; direction: ltr; margin-top: 3px; }
+
+    .combo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
+      gap: 10px; margin-bottom: 20px;
+    }
+    .combo-card {
+      background: white; border-radius: 13px; padding: 14px 10px;
+      text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      border-top: 4px solid #FF6B6B;
+    }
+    .combo-card .combo   { font-size: 1.7rem; font-weight: bold; color: #c0392b; direction: ltr; }
+    .combo-card .sound   { font-size: 1rem;   font-weight: bold; color: #333; margin: 4px 0; }
+    .combo-card .ex-word { font-size: 0.82rem; color: #4ECDC4; direction: ltr; margin-top: 3px; }
+
     /* ── READING ── */
     .reading-passage {
       background: white; border-radius: 14px; padding: 20px;
@@ -190,15 +230,54 @@
 </header>
 
 <div class="tabs">
-  <button class="tab active" onclick="showSection('vocab')">📝 אוצר מילים</button>
+  <button class="tab active" onclick="showSection('alphabet')">🔡 אותיות</button>
+  <button class="tab" onclick="showSection('vocab')">📝 אוצר מילים</button>
   <button class="tab" onclick="showSection('grammar')">📏 דקדוק</button>
   <button class="tab" onclick="showSection('sentences')">💬 משפטים</button>
   <button class="tab" onclick="showSection('reading')">📖 קריאה</button>
   <button class="tab" onclick="showSection('spelling')">✏️ כתיב</button>
 </div>
 
+<!-- ══════════ אותיות ══════════ -->
+<div id="alphabet" class="section active">
+  <div class="explain-box">
+    <h3>📚 האלף-בית האנגלי – The Alphabet</h3>
+    <p>באנגלית יש <b>26 אותיות</b> – כל אות יכולה להיות <b>גדולה (Capital)</b> או <b>קטנה (Small)</b>.<br>
+    לכל אות יש שם ולכל אות יש צליל (לפעמים יותר מצליל אחד!).</p>
+  </div>
+
+  <div class="alpha-section-title">🔤 26 אותיות האלף-בית + הצליל שלהן בעברית</div>
+  <div class="alpha-grid" id="alphabet-grid"></div>
+
+  <div class="explain-box" style="margin-top:10px;">
+    <h3>📚 צירופי אותיות – Letter Combinations (Digraphs & Blends)</h3>
+    <p>כששתי אותיות (או יותר) מתחברות, הן יוצרות <b>צליל חדש</b> שונה מהצליל של כל אות בנפרד!</p>
+  </div>
+
+  <div class="alpha-section-title">🔴 צירופי עיצורים – Consonant Digraphs</div>
+  <div class="combo-grid" id="combo-consonants"></div>
+
+  <div class="alpha-section-title">🟡 צירופי עיצורים כפולים – Consonant Blends</div>
+  <div class="combo-grid" id="combo-blends"></div>
+
+  <div class="alpha-section-title">🔵 צירופי תנועות – Vowel Combinations</div>
+  <div class="combo-grid" id="combo-vowels"></div>
+
+  <div class="alpha-section-title">🟢 תנועות ארוכות עם E שקטה – Silent E / Magic E</div>
+  <div class="explain-box" style="margin-bottom:14px;">
+    <p>כש-<b>e</b> מגיעה בסוף המילה, היא <b>שקטה</b> אבל גורמת לתנועה לפניה להישמע <b>ארוכה</b>!</p>
+    <div class="example">
+      c<b>a</b>t → c<b>a</b>k<b>e</b> &nbsp;|&nbsp; p<b>i</b>n → p<b>i</b>n<b>e</b> &nbsp;|&nbsp; h<b>o</b>p → h<b>o</b>p<b>e</b> &nbsp;|&nbsp; c<b>u</b>b → c<b>u</b>b<b>e</b>
+    </div>
+  </div>
+  <div class="combo-grid" id="combo-silente"></div>
+
+  <div class="alpha-section-title">⚫ אותיות שקטות – Silent Letters</div>
+  <div class="combo-grid" id="combo-silent"></div>
+</div>
+
 <!-- ══════════ אוצר מילים ══════════ -->
-<div id="vocab" class="section active">
+<div id="vocab" class="section">
   <div class="explain-box">
     <h3>📚 אוצר מילים – Vocabulary</h3>
     <p>לומדים מילים לפי קטגוריות. קראו כל מילה בקול כמה פעמים!</p>
@@ -367,6 +446,194 @@ The dog eats a bone. | She reads a book. | We play football.
 </div>
 
 <script>
+// ══════════════════════════════
+// ALPHABET & PHONICS DATA
+// ══════════════════════════════
+
+const alphabetData = [
+  // [Capital+Small, name, Hebrew sound, example word]
+  ['Aa','ei (אֵי)','צליל: אֶ/אֵ','apple, cake'],
+  ['Bb','bi (בִּי)','צליל: בּ','ball, book'],
+  ['Cc','si (סִי)','צליל: ק / ס','cat, city'],
+  ['Dd','di (דִּי)','צליל: ד','dog, door'],
+  ['Ee','i (אִי)','צליל: אֶ/אִי','egg, me'],
+  ['Ff','ef (אֶף)','צליל: פ (כמו f)','fish, fly'],
+  ['Gg','dʒi (גִ\'י)','צליל: ג / ג\'','go, giant'],
+  ['Hh','eitʃ (אֵיצ\')','צליל: ה','house, hat'],
+  ['Ii','ai (אַי)','צליל: אִ/אַי','it, ice'],
+  ['Jj','dʒei (גֵ\'י)','צליל: ג\'','jump, job'],
+  ['Kk','kei (קֵי)','צליל: ק','king, key'],
+  ['Ll','el (אֶל)','צליל: ל','lion, lamp'],
+  ['Mm','em (אֶם)','צליל: מ','milk, map'],
+  ['Nn','en (אֶן)','צליל: נ','night, net'],
+  ['Oo','ou (אוֹ)','צליל: אוֹ/אֻ','on, open'],
+  ['Pp','pi (פִּי)','צליל: פּ','park, pen'],
+  ['Qq','kju (קְיוּ)','צליל: קו','queen, quiz'],
+  ['Rr','ar (אָר)','צליל: ר (אמריקאי)','run, red'],
+  ['Ss','es (אֶס)','צליל: ס/ז','sun, dogs'],
+  ['Tt','ti (טִי)','צליל: ט/ת','tree, top'],
+  ['Uu','ju (יוּ)','צליל: אֻ/יוּ','up, cube'],
+  ['Vv','vi (וִי)','צליל: ו (שיניים)','van, very'],
+  ['Ww','dʌblju (דַבְליוּ)','צליל: ו (שפתיים)','water, win'],
+  ['Xx','eks (אֶקְס)','צליל: קס/ז','fox, xylophone'],
+  ['Yy','wai (וַאי)','צליל: י/אַי','yes, my'],
+  ['Zz','zed (זֶד)','צליל: ז','zoo, zero'],
+];
+
+const alphaGrid = document.getElementById('alphabet-grid');
+alphabetData.forEach(([letters, name, sound, example]) => {
+  alphaGrid.innerHTML += `
+    <div class="alpha-card">
+      <span class="letter">${letters}</span>
+      <div class="letter-name">${name}</div>
+      <div class="sound-heb">${sound}</div>
+      <div class="example">e.g. ${example}</div>
+    </div>`;
+});
+
+// Consonant Digraphs
+const consonantDigraphs = [
+  ['sh','שׁ (כמו בעברית)','ship, fish, shoe'],
+  ['ch','צ\' / ח','chair, school, chef'],
+  ['th','ת\' / ד\'','the, think, that'],
+  ['ph','פ (כמו f)','phone, photo, graph'],
+  ['wh','ו / ה','when, what, white'],
+  ['ck','ק','back, clock, duck'],
+  ['ng','נג (מהאף)','ring, sing, long'],
+  ['gh','ג / ף / שקט','ghost, laugh, night'],
+  ['kn','נ (k שקטה)','know, knee, knife'],
+  ['wr','ר (w שקטה)','write, wrong, wrap'],
+  ['qu','קו','queen, quick, quiet'],
+  ['tch','צ\'','catch, watch, match'],
+];
+
+const ccEl = document.getElementById('combo-consonants');
+consonantDigraphs.forEach(([combo, sound, ex]) => {
+  ccEl.innerHTML += `
+    <div class="combo-card">
+      <div class="combo">${combo}</div>
+      <div class="sound">🔊 ${sound}</div>
+      <div class="ex-word">✏️ ${ex}</div>
+    </div>`;
+});
+
+// Consonant Blends
+const consonantBlends = [
+  ['bl','בּל','blue, black, blend'],
+  ['br','בּר','brown, bread, break'],
+  ['cl','קל','clock, cloud, clean'],
+  ['cr','קר','cry, crown, crab'],
+  ['dr','דר','draw, dream, drink'],
+  ['fl','פּל','fly, flower, flag'],
+  ['fr','פּר','frog, fruit, free'],
+  ['gl','גל','glad, glue, glow'],
+  ['gr','גר','green, grow, grab'],
+  ['pl','פּל','play, plant, place'],
+  ['pr','פּר','print, price, prove'],
+  ['sl','סל','sleep, slide, slow'],
+  ['sm','סמ','small, smart, smile'],
+  ['sn','סנ','snake, snow, snap'],
+  ['sp','ספּ','spin, sport, space'],
+  ['st','סט','stop, star, step'],
+  ['str','סטר','strong, street, straw'],
+  ['sw','סו','swim, sweet, swing'],
+  ['tr','טר','tree, train, trip'],
+  ['tw','טו','twin, twelve, twice'],
+  ['sk','סק','sky, skip, skill'],
+  ['sc','סק','scan, scar, score'],
+  ['spr','ספּר','spring, spread, spray'],
+  ['scr','סקר','scream, screen, scrub'],
+];
+
+const cbEl = document.getElementById('combo-blends');
+consonantBlends.forEach(([combo, sound, ex]) => {
+  cbEl.innerHTML += `
+    <div class="combo-card">
+      <div class="combo">${combo}</div>
+      <div class="sound">🔊 ${sound}</div>
+      <div class="ex-word">✏️ ${ex}</div>
+    </div>`;
+});
+
+// Vowel Combinations
+const vowelCombos = [
+  ['ai','אֵי (ארוך)','rain, train, tail'],
+  ['ay','אֵי (ארוך)','day, play, say'],
+  ['ea','אִי / אֶ','eat, tea, bread'],
+  ['ee','אִי (ארוך)','see, tree, feet'],
+  ['ie','אִי / אַי','pie, field, tie'],
+  ['oa','אוֹ (ארוך)','boat, road, coat'],
+  ['oe','אוֹ','toe, foe, goes'],
+  ['oi','אוֹי','oil, coin, point'],
+  ['oo','אוּ / אֻ','moon, book, food'],
+  ['ou','אַו / אוּ','out, you, soup'],
+  ['ow','אַו / אוֹ','cow, snow, show'],
+  ['oy','אוֹי','boy, toy, enjoy'],
+  ['au','אוֹ','caught, auto, pause'],
+  ['aw','אוֹ','saw, draw, law'],
+  ['ew','יוּ / אוּ','new, few, flew'],
+  ['ui','אוּ','fruit, suit, juice'],
+  ['ue','יוּ / אוּ','blue, clue, true'],
+  ['igh','אַי','night, light, high'],
+  ['eigh','אֵי','eight, weight, neigh'],
+  ['aigh','אֵי','straight, straighten'],
+];
+
+const cvEl = document.getElementById('combo-vowels');
+vowelCombos.forEach(([combo, sound, ex]) => {
+  cvEl.innerHTML += `
+    <div class="combo-card">
+      <div class="combo">${combo}</div>
+      <div class="sound">🔊 ${sound}</div>
+      <div class="ex-word">✏️ ${ex}</div>
+    </div>`;
+});
+
+// Silent E
+const silentEData = [
+  ['a_e','אֵי – תנועה ארוכה','cake, lake, name, game'],
+  ['i_e','אַי – תנועה ארוכה','bike, kite, time, pine'],
+  ['o_e','אוֹ – תנועה ארוכה','home, hope, note, bone'],
+  ['u_e','יוּ – תנועה ארוכה','cube, cute, mule, dune'],
+  ['e_e','אִי – תנועה ארוכה','here, these, theme'],
+];
+
+const seEl = document.getElementById('combo-silente');
+silentEData.forEach(([combo, sound, ex]) => {
+  seEl.innerHTML += `
+    <div class="combo-card">
+      <div class="combo">${combo}</div>
+      <div class="sound">🔊 ${sound}</div>
+      <div class="ex-word">✏️ ${ex}</div>
+    </div>`;
+});
+
+// Silent Letters
+const silentLetters = [
+  ['kn','k שקטה → צליל נ','know, knee, knife, knock'],
+  ['wr','w שקטה → צליל ר','write, wrong, wrist, wrap'],
+  ['gn','g שקטה → צליל נ','gnat, gnome, sign, gnaw'],
+  ['mb','b שקטה → צליל מ','lamb, comb, thumb, climb'],
+  ['gh','gh שקטות','night, light, right, eight'],
+  ['gh=f','gh נהגית כ-f','laugh, cough, rough, tough'],
+  ['igh','i+gh → צליל אַי','high, sigh, thigh, night'],
+  ['bt','b שקטה → צליל ט','debt, doubt, subtle'],
+  ['pn','p שקטה → צליל נ','pneumonia, pneumatic'],
+  ['ps','p שקטה → צליל ס','psychology, psalm'],
+  ['lk','l שקטה → צליל ק','walk, talk, chalk, folk'],
+  ['sten','t שקטה','listen, fasten, glisten'],
+];
+
+const slEl = document.getElementById('combo-silent');
+silentLetters.forEach(([combo, sound, ex]) => {
+  slEl.innerHTML += `
+    <div class="combo-card">
+      <div class="combo">${combo}</div>
+      <div class="sound">🔊 ${sound}</div>
+      <div class="ex-word">✏️ ${ex}</div>
+    </div>`;
+});
+
 // ── TABS ──
 function showSection(id) {
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
